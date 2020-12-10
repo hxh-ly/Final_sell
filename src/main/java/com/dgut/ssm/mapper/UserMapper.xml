@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dgut.ssm.dao.UserDao">
+    <!--    public User getUserByName(String name);-->
+    <select id="getUserByName" resultMap="getUserByNameMap">
+        select u.id, u.username, u.password ,u.status,r.id rid,r.role_name ,r.role_desc from
+        test_rightcontrol.users u,test_rightcontrol.role r,test_rightcontrol.users_role ur
+        where   u.id=ur.userId and r.id=ur.roleId and username = #{username}
+    </select>
+    <resultMap id="getUserByNameMap" type="com.dgut.ssm.bean.User">
+        <result column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="status" property="status"/>
+        <collection ofType="com.dgut.ssm.bean.Role" property="roles">
+            <result column="r.id" property="id"/>
+            <result column="role_name" property="roleName"/>
+            <result column="role_desc" property="roleDesc"/>
+        </collection>
+    </resultMap>
+
+    <!-- List<User> getAllUser();-->
+    <select id="getAllUser" resultType="com.dgut.ssm.bean.User">
+        select id, username, password,status
+        from test_rightcontrol.users
+    </select>
+</mapper>
+

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dgut.ssm.dao.GoodsDao">
+    <!-- public List<Goods> getAllGoods();-->
+    <select id="getAllGoods" resultType="com.dgut.ssm.bean.Goods">
+        select id, goods_name goodsName, price, amount
+        from test_rightcontrol.goods;
+    </select>
+    <!--    Goods getGoodsByCondition(Goods goods);-->
+    <select id="getGoodsByCondition" resultType="com.dgut.ssm.bean.Goods">
+
+        select id,goods_name goodsName,price,amount from test_rightcontrol.goods
+        <trim prefix="where" prefixOverrides="and">
+            <if test="id!=null">
+                and id=#{id}
+            </if>
+            <if test="goodsName!=null and goodsName.trim()!=''">
+                and goodsName=#{goodsName}
+            </if>
+            <if test="price!=null ">
+                and price=#{price}
+            </if>
+            <if test="amount!=null ">
+                and amount=#{amount}
+            </if>
+        </trim>
+    </select>
+    <!--public List<Goods> getGoodsByContractId(int id);-->
+    <select id="getGoodsByContractId" resultType="com.dgut.ssm.bean.Goods">
+        select g.id, goods_name goodsName, g.price, gom.amount
+        from test_rightcontrol.goods g,
+             test_rightcontrol.goods_orders_merge gom,test_rightcontrol.orders o,test_rightcontrol.contract c
+        where g.id=gom.gid and gom.oid=o.id and o.contractId = c.id and c.id=#{id}
+    </select>
+
+    <!--getGoodsByOrderId-->
+    <select id="getGoodsByOrderId" resultType="com.dgut.ssm.bean.Goods">
+        select g.id, goods_name goodsName, g.price, gom.amount
+        from test_rightcontrol.goods g,
+             test_rightcontrol.goods_orders_merge gom,test_rightcontrol.orders o,test_rightcontrol.contract c
+        where g.id=gom.gid and gom.oid=o.id and o.contractId = c.id and o.id=#{id}
+    </select>
+
+</mapper>
+

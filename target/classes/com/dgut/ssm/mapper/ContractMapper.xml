@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dgut.ssm.dao.ContractDao">
+
+    <!-- public List<Contract> getAllContract();-->
+
+    <select id="getAllContract" resultMap="ContractBean">
+        select con.id                    conId,
+               sid,
+               cid,
+               con.status                conStatus,
+               signdate,
+               goods_orders_merge.amount goAmount,
+               goods.goods_name          gName,
+               goods.price               gPrice,
+               orders.id                 oId
+        from test_rightcontrol.contract con
+           , test_rightcontrol.orders
+           , test_rightcontrol.goods_orders_merge
+           , test_rightcontrol.goods
+        where orders.contractId = con.id
+          and orders.id = goods_orders_merge.oid
+          and goods_orders_merge.gid = goods.id
+    </select>
+    <resultMap id="ContractBean" type="com.dgut.ssm.bean.Contract">
+        <result property="id" column="conId"/>
+        <result property="status" column="conStatus"/>
+        <result property="signdate" column="signdate"/>
+        <association property="staff" javaType="com.dgut.ssm.bean.Staff" select="com.dgut.ssm.dao.StaffDao.getStaffById"
+                     column="sid">
+        </association>
+        <association property="client" javaType="com.dgut.ssm.bean.Client"
+                     select="com.dgut.ssm.dao.ClientDao.getClientById" column="cid">
+        </association>
+        <collection property="orders" ofType="com.dgut.ssm.bean.Orders" >
+            <result property="id" column="oId"/>
+            <collection property="goods" ofType="com.dgut.ssm.bean.Goods" select="com.dgut.ssm.dao.GoodsDao.getGoodsByOrderId" column="oId">
+
+            </collection>
+
+        </collection>
+    </resultMap>
+</mapper>
+
