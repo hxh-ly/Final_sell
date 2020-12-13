@@ -21,4 +21,8 @@ public interface GoodsDao {
     List<Goods> getGoodsByCondition(Goods goods);
     public List<Goods> getGoodsByContractId(int id);
     public List<Goods> getGoodsByOrderId(int id);
+
+    public Goods getNeedNum(@Param(value = "goodId")int goodId,@Param(value = "orderId")int orderId);
+
+    public int checkIsEid(@Param("gid")int gid, @Param("oid")int oid);
 }

@@ -11,5 +11,7 @@ public interface GoodsService {
     public  int delGoods(Integer id);
     public  int addGoods(Goods goods);
     List<Goods> getGoodsByCondition(Goods goods);
-
+    List<Goods> getGoodsByOrderId(Integer id);
+    Goods getNeedNum(Integer goodId,Integer orderId);
+    int checkIsEid(Integer gid,Integer oid);
 }

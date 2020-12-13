@@ -59,9 +59,10 @@ public class MyTest {
     }
     @Test
     void Update(){
-        GoodsDao goodsDao=session.getMapper(GoodsDao.class);
-        Goods goods = new Goods(1, "water", 1.3, 20);
-        goodsDao.updateGoods(goods);
+        ReceiptDao goodsDao=session.getMapper(ReceiptDao.class);
+        Receipt goods = new Receipt(2009, 0,"深圳",null);
+        goodsDao.addReceipt(goods);
+        //发货单添加，查找gid+oid 在中间表增加记录eid
         session.close();
     }
     @Test
@@ -72,9 +73,11 @@ public class MyTest {
     }
     @Test
     void add(){
-        GoodsDao goodsDao=session.getMapper(GoodsDao.class);
-        Goods goods = new Goods(null, "a", 31.1, 22);
-        goodsDao.addGoods(goods);
+        OrderDao mapper = session.getMapper(OrderDao.class);
+        List<Orders> orderByContractId = mapper.getOrderByContractId(1);
+        for (Orders orders : orderByContractId) {
+            System.out.println(orders);
+        }
         session.close();
     }
     @Test
@@ -89,19 +92,15 @@ public class MyTest {
     @Test
     void TestHard(){
         ContractDao mapper = session.getMapper(ContractDao.class);
-        List<Contract> allContract = mapper.getAllContract();
-        for (Contract contract : allContract) {
-            System.out.println(contract);
-        }
+        Contract allContract = mapper.getContractById(1);
+        System.out.println(allContract);
         session.close();
     }
     @Test
     void testQgoods(){
         GoodsDao mapper = session.getMapper(GoodsDao.class);
-        List<Goods> goodsByContractId = mapper.getGoodsByOrderId(2);
-        for (Goods goods : goodsByContractId) {
-            System.out.println(goods);
-        }
+        Goods goodsByContractId = mapper.getNeedNum(2,1);
+        System.out.println(goodsByContractId);
         session.close();
     }
 

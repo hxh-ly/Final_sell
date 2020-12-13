@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page isELIgnored="false" contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%response.setHeader("X-Frame-Options", "SAMEORIGIN");%>
 <html>
@@ -31,19 +31,43 @@
 </thead>
 <tbody id="test1">
 <c:forEach items="${requestScope.allContract }" var="ac">
+
     <tr>
         <td>${ac.id}</td>
         <td>${ac.client.getPhone()}</td>
         <td>${ac.staff.getPhone()}</td>
         <td>${ac.signdate}</td>
-        <td>${ac.status}</td>
-        <td><input type="button" class="layui-btn layui-btn-normal btn" onclick="window.location.href='${pageContext.request.contextPath}/contract/showOrder?id=${ac.id}'"  value="详情"/></td>
-        <td><input type="button" class="layui-btn layui-btn-normal btn" onclick="window.location.href='${pageContext.request.contextPath}/contract/updateContract?id=${ac.id}'"  value="修改"/></td>
+        <td>
+            <c:choose>
+                <c:when test="${ac.status==0}">
+                    未履行
+                </c:when>
+                <c:when test="${ac.status==1}">
+                    正履行
+                </c:when>
+                <c:otherwise>
+                    履行完毕
+                </c:otherwise>
+            </c:choose>
+        </td>
+        <td><input type="button" class="layui-btn layui-btn-normal btn" onclick="window.location.href='${pageContext.request.contextPath}/contract/showOrder?cid=${ac.id}'"  value="详情"/></td>
+        <td><c:if test="${ac.status==0}"><input type="button" class="layui-btn layui-btn-normal btn" onclick="window.location.href='${pageContext.request.contextPath}/contract/updateContract?id=${ac.id}'"  value="修改"/></c:if> </td>
     </tr>
 
 </c:forEach>
 </tbody>
 </table>
 <script src="${pageContext.request.contextPath}/static/layui.js"></script>
+<script>
+    let a="${requestScope.msg}"
+        console.log(a)
+    layui.use('layer', function(){
+        var layer = layui.layer;
+        if(a==0&&a!='')
+        layer.msg("勿重复生成发货单");
+        if(a==1)
+            layer.msg("生成发货单成功");
+    });
+</script>
 </body>
 </html>

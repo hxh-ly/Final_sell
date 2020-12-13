@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dgut.ssm.dao.ReceiptDao">
+<!--    public void addReceipt(Receipt receipt);-->
+<insert id="addReceipt" parameterType="com.dgut.ssm.bean.Receipt">
+    insert into test_rightcontrol.receipt(express_id, express_status, location) values(#{expressId},#{expressStatus},#{location})
+</insert>
+<!--    public void addInMerge(Integer eid);-->
+    <update id="addInMerge">
+        update test_rightcontrol.goods_orders_merge set eid=#{eid}
+        where oid=#{orderId} and gid=#{goodId}
+    </update>
+</mapper>
+

@@ -42,5 +42,11 @@
 
         </collection>
     </resultMap>
+
+<!--    public void ChangeStatus();-->
+    <update id="ChangeStatus" >
+        update test_rightcontrol.contract set status=1 where
+    id=#{contractId}
+    </update>
 </mapper>
 

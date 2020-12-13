@@ -15,4 +15,8 @@ public class OrderServiceImpl implements OrderService {
         return  orderDao.getOrderByContractId(id);
 
     }
+
+    public Integer getOrder(int id) {
+        return orderDao.getOrder(id);
+    }
 }

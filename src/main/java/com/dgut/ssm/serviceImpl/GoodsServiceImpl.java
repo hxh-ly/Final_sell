@@ -37,4 +37,16 @@ public class GoodsServiceImpl implements GoodsService {
 
     }
 
+    public List<Goods> getGoodsByOrderId(Integer id) {
+        return  goodsDao.getGoodsByOrderId(id);
+    }
+
+    public Goods getNeedNum(Integer goodId,Integer orderId) {
+
+        return goodsDao.getNeedNum(goodId,orderId);
+    }
+
+    public int checkIsEid(Integer gid, Integer oid) {
+        return goodsDao.checkIsEid(gid, oid);
+    }
 }

@@ -42,6 +42,23 @@
              test_rightcontrol.goods_orders_merge gom,test_rightcontrol.orders o,test_rightcontrol.contract c
         where g.id=gom.gid and gom.oid=o.id and o.contractId = c.id and o.id=#{id}
     </select>
-
+   <!-- getNeedNum-->
+    <select id="getNeedNum" resultMap="GoodsInReceipt" >
+        select tg.id tgid,goods_name,price,tgom.amount toAmount from
+     test_rightcontrol.goods tg,test_rightcontrol.goods_orders_merge tgom,
+    test_rightcontrol.orders torder
+where  tg.id=#{goodId} and tgom.gid=tg.id and tgom.oid=torder.id and torder.id=#{orderId}
+    </select>
+    <resultMap id="GoodsInReceipt" type="com.dgut.ssm.bean.Goods">
+        <result property="id" column="tgid"/>
+        <result property="goodsName" column="goods_name"/>
+        <result property="price" column="price"/>
+        <result property="amount" column="toAmount"/>
+    </resultMap>
+   <!-- public int checkIsEid();-->
+        <select id="checkIsEid" resultType="int">
+            select eid from test_rightcontrol.goods_orders_merge
+            where gid=#{gid} and oid=#{oid}
+        </select>
 </mapper>
 

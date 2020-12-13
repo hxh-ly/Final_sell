@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="/static/css/layui.css">
 </head>
 <body>
+
 <input type="button" class="layui-btn layui-btn-normal btn" onclick="window.location.href='${pageContext.request.contextPath}/contract/contractList'" data-id="${g.id}" value="返回"/>
 <table class="layui-table" lay-even lay-skin="nob" >
     <colgroup>
@@ -27,24 +28,44 @@
         <th>清单ID</th>
         <th>清单状态</th>
         <th>清单物品</th>
-        <th>good</th>
-        <th>生成发货单</th>
-        <th>修改清单信息</th>
+
+
+
     </tr>
     </thead>
     <tbody id="test1">
     <c:forEach items="${requestScope.ContainOrder }" var="co">
         <tr>
             <td>${co.id}</td>
-            <td>1</td>
-            <td>${co.goods[0].amount}</td>
-            <td><input type="button" class="layui-btn layui-btn-normal btn" onclick="window.location.href='${pageContext.request.contextPath}/contract/delete?id=${ac.id}'"  value="货物"/></td>
-            <td><input type="button" class="layui-btn layui-btn-normal btn" onclick="window.location.href='${pageContext.request.contextPath}/contract/delete?id=${ac.id}'" data-id="${g.id}" value="生成"/></td>
-            <td><input type="button" class="layui-btn layui-btn-normal btn" onclick="window.location.href='${pageContext.request.contextPath}/contract/delete?id=${ac.id}'" data-id="${g.id}" value="update"/></td>
-        </tr>
+            <td>
+            <c:choose>
+                <c:when test="${co.status==0}">
+                    未发货
+                </c:when>
+                <c:when test="${co.status==1}">
+                    已发货
+                </c:when>
+                <c:otherwise>
+                    已签收
+                </c:otherwise>
+            </c:choose>
+
+            </td>
+            <td><input type="button" class="layui-btn layui-btn-normal btn" onclick="window.location.href='${pageContext.request.contextPath}/contract/showGoods?orderId=${co.id}&contractId=${requestScope.contractId}'"  value="查看"/></td>
+            </tr>
     </c:forEach>
     </tbody>
 </table>
 <script src="${pageContext.request.contextPath}/static/layui.js"></script>
+<script>
+    let a="${requestScope.msg}"
+    console.log(a)
+    layui.use('layer', function(){
+        var layer = layui.layer;
+        if(a==2)
+            layer.msg("库存不足 请生成进货单");
+
+    });
+</script>
 </body>
 </html>
