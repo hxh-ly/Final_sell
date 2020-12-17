@@ -12,4 +12,5 @@ public interface ReceiptDao {
     public void addInMerge(@Param("eid") Integer eid, @Param("orderId") Integer oid, @Param("goodId") Integer gid);
     //查找货单中看有没有
 
+
 }

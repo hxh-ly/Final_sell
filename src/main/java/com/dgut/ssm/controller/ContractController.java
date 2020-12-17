@@ -88,7 +88,6 @@ public class ContractController {
                 //提示失败
                 Integer msg=0;
                 model.addAttribute("msg",msg);
-
             }
             else {
                 Integer cid = orderService.getOrder(orderId);
@@ -104,11 +103,8 @@ public class ContractController {
                 //改合同状态
                 contractService.ChangeStatus(cid);
                 //不允许修改（2个）
-                //通过查询是这个中间表中的exid是否存在，知道是否已经生成进货单
                 Integer msg=1;
                 model.addAttribute("msg",msg);
-
-
             }
 
         }

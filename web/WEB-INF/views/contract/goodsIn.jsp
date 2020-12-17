@@ -5,7 +5,7 @@
   Time: 21:00
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%response.setHeader("X-Frame-Options", "SAMEORIGIN");%>
 <html>
@@ -13,7 +13,7 @@
     <title>Title</title>
     <link rel="stylesheet" href="/static/css/layui.css">
 </head>
-<body>
+<body >
 <input type="button" class="layui-btn layui-btn-normal btn" onclick="window.location.href='${pageContext.request.contextPath}/contract/showOrder?cid=${requestScope.back}'" data-id="${g.id}" value="返回"/>
 <table class="layui-table" lay-even lay-skin="nob" >
     <colgroup>
@@ -29,7 +29,9 @@
         <th>商品名称</th>
         <th>价格</th>
         <th>数量</th>
+        <th>是否发货</th>
         <th>修改清单信息</th>
+
         <th>生成发货单</th>
         <th>生成进货单</th>
     </tr>
@@ -41,9 +43,15 @@
             <td>${gi.goodsName}</td>
             <td>${gi.price}</td>
             <td>${gi.amount}</td>
+            <td>
+                <c:choose>
+                <c:when test="${gi.isSend==0}">未发货</c:when>
+                <c:when test="${gi.isSend==1}">已发货</c:when>
+            </c:choose>
+            </td>
             <td><c:if test="${requestScope.contract.status==0}"><input type="button" class="layui-btn layui-btn-normal btn" onclick="window.location.href='${pageContext.request.contextPath}/contract/update?id=${gi.id}'"  value="update"/></c:if></td>
-            <td><input type="button" class="layui-btn layui-btn-danger btn" onclick="window.location.href='${pageContext.request.contextPath}/contract/newReceipt?goodId=${gi.id}&orderId=${requestScope.orderId}&contractId=${contract.id}'"  value="生成"/></td>
-            <td><input type="button" class="layui-btn layui-btn-danger btn" onclick="window.location.href='${pageContext.request.contextPath}/contract'"  value="进货单"/></td>
+            <td><c:if test="${gi.isGenerate==0}"><input type="button" class="layui-btn layui-btn-danger btn" onclick="window.location.href='${pageContext.request.contextPath}/contract/newReceipt?goodId=${gi.id}&orderId=${requestScope.orderId}&contractId=${contract.id}'"  value="生成"/></c:if></td>
+            <td><c:if test="${gi.isSend==0}"><input type="button" class="layui-btn layui-btn-danger btn" onclick="window.location.href='${pageContext.request.contextPath}/contract'"  value="进货单"/></c:if></td>
         </tr>
     </c:forEach>
     </tbody>
@@ -53,8 +61,8 @@
     let a="${requestScope.msg}"
     console.log(a)
     layui.use('layer', function(){
-        var layer = layui.layer;
-        if(a==0&&a!="")
+        let layer = layui.layer;
+        if(a==0&&a!=="")
             layer.msg("请勿重复生成发货单");
         if(a==1)
             layer.msg("生成发货单成功");

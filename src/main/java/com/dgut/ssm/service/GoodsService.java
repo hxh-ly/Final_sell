@@ -14,4 +14,5 @@ public interface GoodsService {
     List<Goods> getGoodsByOrderId(Integer id);
     Goods getNeedNum(Integer goodId,Integer orderId);
     int checkIsEid(Integer gid,Integer oid);
+    public Goods getGoodsInEid(Integer eid);
 }

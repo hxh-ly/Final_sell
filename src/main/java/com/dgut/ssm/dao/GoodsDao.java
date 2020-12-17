@@ -25,4 +25,5 @@ public interface GoodsDao {
     public Goods getNeedNum(@Param(value = "goodId")int goodId,@Param(value = "orderId")int orderId);
 
     public int checkIsEid(@Param("gid")int gid, @Param("oid")int oid);
+    public Goods getGoodsInEid(Integer eid);
 }

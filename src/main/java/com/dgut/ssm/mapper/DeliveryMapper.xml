@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dgut.ssm.dao.DeliveryDao">
+    <!--public List<Delivery> getDeliveryInfo();-->
+<select id="getDeliveryInfo" resultMap="DeliveryInfo">
+    select tgom.eid,tgoods.goods_name name,tgom.amount dNumber,
+           tgoods.amount quantity,treceipt.location ,treceipt.express_status dStatus
+           from test_rightcontrol.goods_orders_merge tgom,
+                          test_rightcontrol.goods tgoods,
+                          test_rightcontrol.receipt treceipt
+        where tgom.gid=tgoods.id and tgom.eid=treceipt.express_id and eid!=0
+</select>
+    <resultMap id="DeliveryInfo" type="com.dgut.ssm.bean.Delivery">
+        <result property="id" column="eid"/>
+        <result property="name" column="name"/>
+        <result property="dnumber" column="dNumber"/>
+        <result property="quantity" column="quantity"/>
+        <result property="location" column="location"/>
+        <result property="dstatus" column="dStatus"/>
+    </resultMap>
+<!--    public  int getQuantity(Integer gid);-->
+    <select id="getQuantity" resultType="int">
+        select amount from test_rightcontrol.goods where id=#{gid}
+    </select>
+    <!-- public int  updateStatus(Integer eid);;-->
+    <update id="updateStatus">
+        update test_rightcontrol.receipt set express_status=1 where express_id=#{eid}
+    </update>
+    <!--    public  int getDeliveryAmount(Integer eid);-->
+    <select id="getDeliveryAmount" resultType="int">
+        select amount from test_rightcontrol.goods_orders_merge where eid=#{eid}
+    </select>
+    <!--public  int getDeliveryGid(Integer eid);-->
+    <select id="getDeliveryGid" resultType="int">
+        select gid from test_rightcontrol.goods_orders_merge where eid=#{eid}
+    </select>
+    <!--public Integer updateQuantity(Integer amount,Integer gid);-->
+    <update id="updateQuantity">
+        update test_rightcontrol.goods set amount=amount-#{amount} where id=#{gid}
+    </update>
+<!--    public  int addGoodsQuantity(Integer gid);-->
+    <update id="addGoodsQuantity">
+        update test_rightcontrol.goods set amount=amount+100 where id=#{gid}
+    </update>
+<!--    public  int updateGom(Integer eid);-->
+    <update id="updateGom">
+        update test_rightcontrol.goods_orders_merge
+        set status = 1 where eid=#{eid}
+
+    </update>
+</mapper>
+

@@ -49,4 +49,7 @@ public class GoodsServiceImpl implements GoodsService {
     public int checkIsEid(Integer gid, Integer oid) {
         return goodsDao.checkIsEid(gid, oid);
     }
+    public Goods getGoodsInEid(Integer eid){
+      return   goodsDao.getGoodsInEid(eid);
+    }
 }

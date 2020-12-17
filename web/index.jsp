@@ -102,12 +102,12 @@
             </dl>
           </li>
           </security:authorize>
-          <security:authorize access="hasAnyRole('ROLE_WAREHOUSE','')">
+          <security:authorize access="hasAnyRole('ROLE_WAREHOUSE')">
           <li class="layui-nav-item">
             <a href="javascript:;">管理商品信息</a>
             <dl class="layui-nav-child">
               <dd><a data-id="5" class="site-demo-active" data-title="管理商品信息" data-type="ShowGoods" data-url="${pageContext.request.contextPath}/goods/goodsList">管理商品信息</a></dd>
-              <dd><a href="javascript:;">修改商品信息</a></dd>
+              <dd><a data-id="6" class="site-demo-active" data-title="管理发货信息" data-type="GoodsDelivery" data-url="${pageContext.request.contextPath}/delivery/deliveryList">管理发货信息</a></dd>
               <dd><a href="javascript:;">查询商品信息</a></dd>
               <dd><a href="javascript:;">删除商品信息</a></dd>
             </dl>

@@ -26,7 +26,7 @@
     <thead>
     <tr>
         <th>清单ID</th>
-        <th>清单状态</th>
+
         <th>清单物品</th>
 
 
@@ -37,20 +37,6 @@
     <c:forEach items="${requestScope.ContainOrder }" var="co">
         <tr>
             <td>${co.id}</td>
-            <td>
-            <c:choose>
-                <c:when test="${co.status==0}">
-                    未发货
-                </c:when>
-                <c:when test="${co.status==1}">
-                    已发货
-                </c:when>
-                <c:otherwise>
-                    已签收
-                </c:otherwise>
-            </c:choose>
-
-            </td>
             <td><input type="button" class="layui-btn layui-btn-normal btn" onclick="window.location.href='${pageContext.request.contextPath}/contract/showGoods?orderId=${co.id}&contractId=${requestScope.contractId}'"  value="查看"/></td>
             </tr>
     </c:forEach>

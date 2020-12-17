@@ -68,7 +68,10 @@ public class MyTest {
     @Test
     void Del(){
         GoodsDao goodsDao=session.getMapper(GoodsDao.class);
-        goodsDao.deleteGoods(3);
+        List<Goods> getGoodsByOrderId = goodsDao.getGoodsByOrderId(1);
+        for (Goods goods : getGoodsByOrderId) {
+            System.out.println(goods);
+        }
         session.close();
     }
     @Test
@@ -82,11 +85,9 @@ public class MyTest {
     }
     @Test
     void query(){
-        OrderDao mapper = session.getMapper(OrderDao.class);
-        List<Orders> orderByContractId = mapper.getOrderByContractId(1);
-        for (Orders orders : orderByContractId) {
-            System.out.println(orders);
-        }
+        GoodsDao mapper = session.getMapper(GoodsDao.class);
+        Goods goodsInEid = mapper.getGoodsInEid(2016);
+        System.out.println(goodsInEid);
         session.close();
     }
     @Test
@@ -101,6 +102,12 @@ public class MyTest {
         GoodsDao mapper = session.getMapper(GoodsDao.class);
         Goods goodsByContractId = mapper.getNeedNum(2,1);
         System.out.println(goodsByContractId);
+        session.close();
+    }
+    @Test
+    void testDelivery(){
+        DeliveryDao mapper = session.getMapper(DeliveryDao.class);
+        mapper.updateGom(1532);
         session.close();
     }
 
