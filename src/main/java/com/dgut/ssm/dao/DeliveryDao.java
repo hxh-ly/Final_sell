@@ -15,5 +15,5 @@ public interface DeliveryDao {
     public  int getDeliveryAmount(Integer eid);
     public  int getDeliveryGid(Integer eid);
     public Integer updateQuantity(@Param("amount") Integer amount, @Param("gid") Integer gid);
-    public  int addGoodsQuantity(Integer gid);
+    public  int addGoodsQuantity(@Param("amount") Integer amount,@Param("gid")Integer gid);
 }

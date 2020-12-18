@@ -80,10 +80,26 @@
         let eid=e.getAttribute("data-id");
         console.log(eid)
         layui.use('layer', function(){
+
             let layer = layui.layer;
             layer.open({
+                id:"LAY_addStock",
                 type: 2,
                 content: "${pageContext.request.contextPath}/delivery/addStock?eid="+eid  //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
+                ,
+                btn:['提交','取消'],
+                area:['300px','300px'],
+                yes:function (index,layero){
+                    console.log("aaa")
+                    var body = layer.getChildFrame('body', index);
+                    var f = body.find(".layui-form");
+                    f.submit();
+                    layer.close(index);
+                    setTimeout(function (){location.reload();},500);
+                },btn2: function (index,layero){
+                    layer.close(index);
+                }
+
             });
         });
     }
@@ -109,7 +125,8 @@
             layer.open({
                 type:2,
                 title:'修改',
-                content:'${pageContext.request.contextPath}/goods/NavAdd'
+                content:'${pageContext.request.contextPath}/goods/NavAdd',
+
 
             })
         });

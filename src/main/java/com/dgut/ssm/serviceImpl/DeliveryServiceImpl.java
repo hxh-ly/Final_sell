@@ -42,9 +42,14 @@ public class DeliveryServiceImpl implements DeliveryService {
     }
 
     @Transactional
-    public int addGoodsQuantity(Integer eid) {
+    public int addGoodsQuantity(Integer amount,Integer eid) {
         int gid = deliveryDao.getDeliveryGid(eid);
-        int i = deliveryDao.addGoodsQuantity(gid);
+        int i=0;
+        try {
+            i = deliveryDao.addGoodsQuantity(amount,gid);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return i+3;
     }
 

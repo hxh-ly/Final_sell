@@ -1,5 +1,6 @@
 import com.dgut.ssm.bean.*;
 import com.dgut.ssm.dao.*;
+import com.dgut.ssm.service.StockService;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -13,6 +14,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.Date;
 import java.util.List;
 
 public class MyTest {
@@ -43,10 +45,11 @@ public class MyTest {
     }
     @Test
     void  testUser(){
-        GoodsDao goodsDao=session.getMapper(GoodsDao.class);
-        List<Goods> allGoods = goodsDao.getAllGoods();
-        for (Goods good : allGoods) {
-            System.out.println(good);
+        ClientDao mapper = session.getMapper(ClientDao.class);
+
+        List<Client> clients = mapper.queryClientCondition(new Client(null, null, "131", "上海"));
+        for (Client client : clients) {
+            System.out.println(client);
         }
         session.close();
     }
@@ -76,12 +79,11 @@ public class MyTest {
     }
     @Test
     void add(){
-        OrderDao mapper = session.getMapper(OrderDao.class);
-        List<Orders> orderByContractId = mapper.getOrderByContractId(1);
-        for (Orders orders : orderByContractId) {
-            System.out.println(orders);
-        }
+        StockDao mapper = session.getMapper(StockDao.class);
+        Stock a=new Stock(1234,"锤子",22,new Date(1608134400000L),"wh");
+      mapper.addStock(a);
         session.close();
+
     }
     @Test
     void query(){

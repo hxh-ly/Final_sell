@@ -40,7 +40,7 @@
         <input type="submit" value="submit" class="layui-btn layui-btn-normal">
     </form:form>
 </div>--%>
-<form:form class="layui-form" modelAttribute="stock" action="${requestScope.request.contextPath }/delivery/goodsStock" method="post"> <!-- 提示：如果你不想用form，你可以换成div等任何一个普通元素 -->
+<form:form  class="layui-form" modelAttribute="stock" action="${requestScope.request.contextPath }/delivery/goodsStock" method="post"> <!-- 提示：如果你不想用form，你可以换成div等任何一个普通元素 -->
 <div class="layui-form-item">
     <div class="layui-input-block">
         <form:hidden path="id"/>
@@ -79,12 +79,6 @@
                 </div>
 
             </div>
-    </div>
-    <div class="layui-form-item">
-        <div class="layui-input-block">
-            <button class="layui-btn" type="submit">立即提交</button>
-            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
-        </div>
     </div>
     <!-- 更多表单结构排版请移步文档左侧【页面元素-表单】一项阅览 -->
 </form:form>

@@ -42,7 +42,7 @@
     </update>
 <!--    public  int addGoodsQuantity(Integer gid);-->
     <update id="addGoodsQuantity">
-        update test_rightcontrol.goods set amount=amount+100 where id=#{gid}
+        update test_rightcontrol.goods set amount=amount+#{amount} where id=#{gid}
     </update>
 <!--    public  int updateGom(Integer eid);-->
     <update id="updateGom">

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dgut.ssm.dao.StockDao">
+<!--    public int addStock(Stock stock);-->
+    <insert id="addStock" parameterType="com.dgut.ssm.bean.Stock">
+        insert into test_rightcontrol.stock values (#{id},#{goodsName},#{num},#{deliverDate},#{userName})
+    </insert>
+    <!--public List<Stock> getAllStock();-->
+    <select id="getAllStock" resultType="com.dgut.ssm.bean.Stock">
+        select id,goods_name,num,deliver_date,user_name from test_rightcontrol.stock
+    </select>
+</mapper>
+

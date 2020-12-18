@@ -9,5 +9,5 @@ public interface DeliveryService {
 
     public int updateQuantity(Integer eid);
 
-    public int addGoodsQuantity(Integer eid);
+    public int addGoodsQuantity(Integer amount,Integer eid);
 }

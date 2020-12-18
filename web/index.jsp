@@ -41,22 +41,6 @@
         <ul class="layui-nav layui-nav-tree" lay-filter="test">
           <security:authorize access="hasAnyRole('ROLE_CONTRACT')">
           <li class="layui-nav-item">
-            <a class="" href="javascript:;"><i class="layui-icon layui-icon-face-smile"></i>  管理员管理</a>
-            <dl class="layui-nav-child">
-              <dd>
-                <a href="javascript:;"
-                   data-id="1"
-                   data-title="自动开票"
-                   data-url="./button.html"
-                   class="site-demo-active"
-                   data-type="tabAdd">管理员列表</a></dd>
-              <dd><a href="javascript:;" data-url="./content2.jsp">管理员日志</a></dd>
-              <dd><a href="javascript:;">职工技能管理</a></dd>
-            </dl>
-          </li>
-          </security:authorize>
-          <security:authorize access="hasAnyRole('ROLE_CONTRACT')">
-          <li class="layui-nav-item">
             <a href="javascript:;">管理合同信息</a>
             <dl class="layui-nav-child">
               <dd><a href="javascript:;"
@@ -84,9 +68,9 @@
             <li class="layui-nav-item">
             <a href="javascript:;" >管理客户信息</a>
             <dl class="layui-nav-child">
-              <dd><a href="javascript:;"data-id="5"
-                     class="site-demo-active"      data-title="添加客户信息" data-type="AddClient" data-url="${pageContext.request.contextPath}/user/userList">增加客户信息</a></dd>
-              <dd><a href="javascript:;"data-id="5"
+              <dd><a href="javascript:;"data-id="50"
+                     class="site-demo-active"      data-title="查看客户信息" data-type="ShowClient" data-url="${pageContext.request.contextPath}/client/toShowList">客户信息</a></dd>
+              <dd><a href="javascript:;"data-id="51"
                      class="site-demo-active"      data-title="修改客户信息" data-type="UpdateClient" data-url="${pageContext.request.contextPath}/user/UpdateUser">修改客户信息</a></dd>
               <dd><a href="javascript:;">查询客户信息</a></dd>
             </dl>
@@ -108,7 +92,7 @@
             <dl class="layui-nav-child">
               <dd><a data-id="5" class="site-demo-active" data-title="管理商品信息" data-type="ShowGoods" data-url="${pageContext.request.contextPath}/goods/goodsList">管理商品信息</a></dd>
               <dd><a data-id="6" class="site-demo-active" data-title="管理发货信息" data-type="GoodsDelivery" data-url="${pageContext.request.contextPath}/delivery/deliveryList">管理发货信息</a></dd>
-              <dd><a href="javascript:;">查询商品信息</a></dd>
+              <dd><a data-id="7" class="site-demo-active" data-title="管理进货信息" data-type="ShowStock" data-url="${pageContext.request.contextPath}/stock/toShowStockList">管理进货信息</a></dd>
               <dd><a href="javascript:;">删除商品信息</a></dd>
             </dl>
           </li>
