@@ -14,6 +14,8 @@
     <link rel="stylesheet" href="/static/css/layui.css">
 </head>
 <body>
+<input type="button" class="layui-btn layui-btn-normal btn" onclick="clickMe(this)"  value="增加"/>
+
 <form modelAttribute="client" onsubmit="return false" action="##" method="post">
     <security:csrfInput/>
 <div class="layui-form layui-card-header layuiadmin-card-header-auto">
@@ -47,15 +49,16 @@
         <div class="layui-inline">
             <input type="button"  onclick="sendClick()" class="layui-btn layui-btn-normal btn" value="查询"/>
         </div>
+
     </div>
 </div>
 </form>
-<input type="button" class="layui-btn layui-btn-normal btn" onclick="clickMe(this)"  value="增加"/>
-<input type="button" class="layui-btn layui-btn-normal btn" onclick="clickToUpdate()"  value="修改"/>
-
+<br>
+<br>
+<br>
 <table id="client" lay-filter="test"></table>
 <script type="text/html" id="buttonTpl">
-    <input class="layui-btn layui-btn-success " value="修改" lay-event="edit" >
+    <input type="button" class="layui-btn layui-btn-danger layui-btn layui-btn-xs" value="修改" lay-event="edit" >
 </script>
 <script src="${pageContext.request.contextPath}/static/layui.js"></script>
 <script>
@@ -74,7 +77,7 @@
                 ,{field: 'name', title: '客户名', width:120}
                 ,{field: 'phone', title: '联系方式', width:120}
                 ,{field: 'location', title: '发货地址', width:200}
-                ,{field: "update",title: "操作",templet:"#buttonTpl"}
+                ,{field: "update",title: "操作",templet:"#buttonTpl",width:80}
             ]]
         });
         table.on('tool(test)', function(obj){
@@ -87,7 +90,31 @@
                     layer.close(index);
                 });
             } else if(obj.event === 'edit'){
-                layer.alert(data.id)
+               //弹窗修改框 data.id
+                let cid=data.id
+                layui.use(['layer','jquery'], function(){
+                    let layer = layui.layer;
+                    let $=layui.jquery;
+                    layer.open({
+                        id:"updateClient",
+                        type:2,
+                        title:'修改',
+                        content:'${pageContext.request.contextPath}/client/PopClient?flag=0&id='+cid,
+                        btn:["提交","取消"],
+                        yes:function (index,layero){
+                            console.log("aaab")
+                            var body = layer.getChildFrame('body', index);
+                            var f = body.find(".layui-form");
+                            f.submit();
+                            layer.close(index);
+                            setTimeout(function (){
+                                tb.reload()},300);
+                        },btn2: function (index,layero){
+                            layer.close(index);
+                        }
+
+                    })
+                });
             }
         });
     });

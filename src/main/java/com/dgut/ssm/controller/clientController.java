@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
@@ -30,13 +31,20 @@ public class clientController {
         return APIResult.createOk(clients);
     }
     @RequestMapping("PopClient")
-    public String toShowPopClient(Model model,@Param("flag") int flag){
-        Client nullClient = new Client();
-        model.addAttribute("client",nullClient);
-        if(flag==1)
-        return "client/addClientForm";
-        else
+    public String toShowPopClient(Model model,@RequestParam(value = "flag") int flag,@RequestParam(value = "id",required = false) Integer id){
+
+
+        if(flag==1){
+            Client nullClient = new Client();
+            model.addAttribute("client",nullClient);
+            return "client/addClientForm";
+        }
+
+        else {
+            List<Client> clientsForQuery = clientService.queryClientCondition(new Client(id, null, null, null));
+            model.addAttribute("clientsForQuery",clientsForQuery.get(0));
             return "client/updateClientForm";
+        }
     }
     @RequestMapping("addClient")
     @ResponseBody
@@ -53,5 +61,16 @@ public class clientController {
         return APIResult.createOk(clients);
         else
             return APIResult.createNg("empty");
+    }
+
+    @RequestMapping("updateClient")
+    public String updateClient(@ModelAttribute("clientsForQuery") Client client){
+        Integer i = clientService.updateClient(client);
+            if(i==1){
+                return  "redirect:/client/showClient";
+            }
+            else{
+                return "redirect:/client/updateClient";
+            }
     }
 }

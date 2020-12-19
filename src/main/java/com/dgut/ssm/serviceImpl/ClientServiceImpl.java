@@ -5,6 +5,7 @@ import com.dgut.ssm.dao.ClientDao;
 import com.dgut.ssm.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 @Service
@@ -22,4 +23,9 @@ public class ClientServiceImpl implements ClientService {
     public List<Client> queryClientCondition(Client client) {
     return   clientDao.queryClientCondition(client);
     }
+
+        @Transactional
+    public Integer updateClient(Client client) {
+        return clientDao.updateClient(client);
+        }
 }

@@ -9,4 +9,5 @@ public interface ClientService {
     public List<Client> showAllClient();
     public int InsertClient(Client client);
     public List<Client> queryClientCondition(Client client);
+    public Integer updateClient(Client client);
 }

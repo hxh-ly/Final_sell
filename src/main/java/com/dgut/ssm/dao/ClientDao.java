@@ -20,4 +20,6 @@ public interface ClientDao {
     public int InsertClient(Client client);
 
     public List<Client> queryClientCondition(Client client);
+
+    public Integer updateClient(Client client);
 }

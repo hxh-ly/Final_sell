@@ -70,9 +70,6 @@
             <dl class="layui-nav-child">
               <dd><a href="javascript:;"data-id="50"
                      class="site-demo-active"      data-title="查看客户信息" data-type="ShowClient" data-url="${pageContext.request.contextPath}/client/toShowList">客户信息</a></dd>
-              <dd><a href="javascript:;"data-id="51"
-                     class="site-demo-active"      data-title="修改客户信息" data-type="UpdateClient" data-url="${pageContext.request.contextPath}/user/UpdateUser">修改客户信息</a></dd>
-              <dd><a href="javascript:;">查询客户信息</a></dd>
             </dl>
           </li>
           </security:authorize>

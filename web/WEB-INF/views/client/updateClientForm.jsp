@@ -8,13 +8,11 @@
     <title>Title</title>
 </head>
 <body>
-<form:form  class="layui-form" modelAttribute="client" action="${requestScope.request.contextPath }/client/addClient" method="post"> <!-- 提示：如果你不想用form，你可以换成div等任何一个普通元素 -->
+<form:form  class="layui-form" modelAttribute="clientsForQuery" action="${requestScope.request.contextPath }/client/updateClient" method="post"> <!-- 提示：如果你不想用form，你可以换成div等任何一个普通元素 -->
 <div class="layui-form-item">
-    <div class="layui-form-item">
-        <label class="layui-form-label">客户名</label>
-        <div class="layui-input-inline">
-            <form:input path="id" type="text"  placeholder="请输入" autocomplete="off" class="layui-input" />
-        </div>
+    <div class="layui-input-block">
+        <form:hidden path="id"/>
+        <input type="hidden"  name="_method" value="put" autocomplete="off" class="layui-input" />
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">客户名</label>
@@ -25,7 +23,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">联系方式</label>
         <div class="layui-input-inline">
-            <input type="text" name="phone" placeholder="请输入" autocomplete="off" class="layui-input">
+            <form:input type="text" path="phone" placeholder="请输入" autocomplete="off" class="layui-input"/>
         </div>
     </div>
 
@@ -34,7 +32,7 @@
             <div class="layui-inline">
                 <label class="layui-form-label">发货地址</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="location" placeholder="请输入" autocomplete="off" class="layui-input">
+                    <form:input type="text" path="location" placeholder="请输入" autocomplete="off" class="layui-input"/>
                 </div>
             </div>
 

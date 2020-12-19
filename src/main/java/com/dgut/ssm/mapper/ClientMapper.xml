@@ -5,6 +5,7 @@
 <mapper namespace="com.dgut.ssm.dao.ClientDao">
    <!-- public List<Client> queryClientCondition(Client client);-->
 <select id="queryClientCondition" parameterType="com.dgut.ssm.bean.Client" resultType="com.dgut.ssm.bean.Client">
+
     select id,name ,phone,location from test_rightcontrol.client
     <trim prefix="where" prefixOverrides="and">
         <if test="id!=null">
@@ -21,5 +22,10 @@
         </if>
     </trim>
 </select>
+<!--    public int updateClient(Client client);-->
+    <update id="updateClient" parameterType="com.dgut.ssm.bean.Client">
+        update test_rightcontrol.client set name=#{name},phone=#{phone},location=#{location} where id=#{id}
+    </update>
+
 </mapper>
 
