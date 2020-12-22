@@ -37,6 +37,10 @@ public class GoodsServiceImpl implements GoodsService {
 
     }
 
+    public int getGoodIdByName(String name) {
+        return goodsDao.getGoodIdByName(name);
+    }
+
     public List<Goods> getGoodsByOrderId(Integer id) {
         return  goodsDao.getGoodsByOrderId(id);
     }
@@ -46,8 +50,8 @@ public class GoodsServiceImpl implements GoodsService {
         return goodsDao.getNeedNum(goodId,orderId);
     }
 
-    public int checkIsEid(Integer gid, Integer oid) {
-        return goodsDao.checkIsEid(gid, oid);
+    public int checkIsEid(Integer gid, Integer oid,Integer need) {
+        return goodsDao.checkIsEid(gid, oid,need);
     }
     public Goods getGoodsInEid(Integer eid){
       return   goodsDao.getGoodsInEid(eid);

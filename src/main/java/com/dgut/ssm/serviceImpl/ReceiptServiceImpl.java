@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Transactional
 @Service
 public class ReceiptServiceImpl implements ReceiptService {
@@ -16,7 +18,15 @@ public class ReceiptServiceImpl implements ReceiptService {
         receiptDao.addReceipt(receipt);
     }
 
-    public void addInMerge(int eid, int oid, int gid) {
-        receiptDao.addInMerge(eid,oid,gid);
+    public void addInMerge(int eid, int oid, int gid,int need) {
+        receiptDao.addInMerge(eid,oid,gid,need);
+    }
+
+    public Integer getCidByEid(Integer eid) {
+       return receiptDao.getCidByEid(eid);
+    }
+
+    public List<Integer> isAllSend(Integer cid) {
+        return  receiptDao.isAllSend(cid);
     }
 }

@@ -5,13 +5,21 @@
 <mapper namespace="com.dgut.ssm.dao.ReceiptDao">
 <!--    public void addReceipt(Receipt receipt);-->
 <insert id="addReceipt" parameterType="com.dgut.ssm.bean.Receipt">
-    insert into test_rightcontrol.receipt(express_id, express_status, location) values(#{expressId},#{expressStatus},#{location})
+    insert into test_rightcontrol.receipt values(#{expressId},#{expressStatus},#{location},#{contractId})
 </insert>
 <!--    public void addInMerge(Integer eid);-->
     <update id="addInMerge">
         update test_rightcontrol.goods_orders_merge set eid=#{eid}
-        where oid=#{orderId} and gid=#{goodId}
+        where oid=#{orderId} and gid=#{goodId} and amount=#{need}
     </update>
+    <!--public  Integer getCidByEid(Integer eid);-->
+    <select id="getCidByEid" resultType="int">
+        select  cid from test_rightcontrol.receipt where express_id=#{id}
+    </select>
 
+    <!--public List<Boolean> isAllSend(Integer);-->
+    <select id="isAllSend" resultType="int">
+        select receipt.express_status from test_rightcontrol.receipt where cid=#{cid}
+    </select>
 </mapper>
 

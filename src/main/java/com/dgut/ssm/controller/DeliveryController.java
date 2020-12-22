@@ -3,9 +3,7 @@ package com.dgut.ssm.controller;
 import com.dgut.ssm.bean.Delivery;
 import com.dgut.ssm.bean.Goods;
 import com.dgut.ssm.bean.Stock;
-import com.dgut.ssm.service.DeliveryService;
-import com.dgut.ssm.service.GoodsService;
-import com.dgut.ssm.service.StockService;
+import com.dgut.ssm.service.*;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,6 +25,10 @@ public class DeliveryController {
     GoodsService goodsService;
     @Autowired
     StockService stockService;
+    @Autowired
+    ContractService contractService;
+    @Autowired
+    ReceiptService receiptService;
     int extra=(int) (Math.round((Math.random() + 1) * 100));
     @RequestMapping("/deliveryList")
     public String  getDeliveryInfo(Model model,@RequestParam(value = "msg",required = false) Integer msg){
@@ -41,6 +43,17 @@ public class DeliveryController {
         int i=0;
         try{
              i = deliveryService.updateQuantity(eid);
+             //发货合同状态才为1 通过进货单应该记载合同
+            //通过eid找到合同
+            Integer cid = receiptService.getCidByEid(eid);
+            contractService.ChangeStatus(cid,1);
+            //判断该合同含的发货单的状态是否都为1，1就修改合同状态 //只在发货单里找 no
+            List<Integer> allStatus = receiptService.isAllSend(cid);
+            //合同货单数量
+            Integer total=contractService.sumAllGoods(cid);
+        if(allStatus!=null&&!allStatus.contains(0)&&allStatus.size()==total){
+                contractService.ChangeStatus(cid,2);
+            }
         }catch (Exception e){
             System.out.println(e.getMessage());
         }

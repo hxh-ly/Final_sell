@@ -24,14 +24,8 @@
 
 <button type="button" class="layui-btn layui-btn-normal" onclick="clickMe(this)">添加</button>
 <button type="button" class="layui-btn layui-btn-normal" onclick="window.location.href='${pageContext.request.contextPath}/goods/NavToQuery'">查询</button>
-<table class="layui-table" lay-even lay-skin="nob" >
-    <colgroup>
-        <col width="150">
-        <col width="150">
-        <col width="150">
-        <col width="150">
-        <col width="150">
-    </colgroup>
+<table class="layui-table"  lay-size="sm" lay-even lay-skin="nob" >
+
     <thead>
     <tr>
         <th>发货单ID</th>

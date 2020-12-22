@@ -10,4 +10,5 @@ public interface ClientService {
     public int InsertClient(Client client);
     public List<Client> queryClientCondition(Client client);
     public Integer updateClient(Client client);
+    public Client GetByPhone(String phone);
 }

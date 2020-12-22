@@ -82,7 +82,7 @@ http://www.springframework.org/schema/security
         <!--?????????-->
         <security:logout logout-url="/logout" logout-success-url="/login.jsp"/>
         <!--???csrf????-->
-        <!-- <security:csrf disabled="true"/>-->
+         <security:csrf disabled="true"/>
     </security:http>
     <!--???-->
     <security:authentication-manager>

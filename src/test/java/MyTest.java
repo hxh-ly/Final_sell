@@ -1,5 +1,6 @@
 import com.dgut.ssm.bean.*;
 import com.dgut.ssm.dao.*;
+import com.dgut.ssm.service.ContractService;
 import com.dgut.ssm.service.StockService;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -15,7 +16,9 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MyTest {
     private SqlSession session;
@@ -45,36 +48,40 @@ public class MyTest {
     }
     @Test
     void  testUser(){
-        ClientDao mapper = session.getMapper(ClientDao.class);
-
-        List<Client> clients = mapper.queryClientCondition(new Client(null, null, "131", "上海"));
-        for (Client client : clients) {
-            System.out.println(client);
-        }
+        ReceiptDao mapper = session.getMapper(ReceiptDao.class);
+        Receipt receipt = new Receipt(111, 0, "location", null,1);
+        List<Integer> allSend = mapper.isAllSend(1);
+        System.out.println(allSend.toString());
         session.close();
+
     }
     @Test
     void testQueryById(){
-        GoodsDao goodsDao=session.getMapper(GoodsDao.class);
-        Goods goodsById = goodsDao.getGoodsById(1);
-        System.out.println(goodsById);
+        ContractDao mapper = session.getMapper(ContractDao.class);
+        Map map=new HashMap<String,Object>();
+map.put("id",null);
+map.put("status",null);
+map.put("sphone",null);
+map.put("signdate",null);
+map.put("cphone","13144829823");
+        List<Contract> contracts = mapper.queryContractCondition(map);
+        for (Contract contract : contracts) {
+            System.out.println(contract);
+        }
         session.close();
     }
     @Test
     void Update(){
         ReceiptDao goodsDao=session.getMapper(ReceiptDao.class);
-        Receipt goods = new Receipt(2009, 0,"深圳",null);
-        goodsDao.addReceipt(goods);
+        Receipt goods = new Receipt(2009, 0,"深圳",null,1);
+        System.out.println(goodsDao.getCidByEid(1311));
         //发货单添加，查找gid+oid 在中间表增加记录eid
         session.close();
     }
     @Test
     void Del(){
-        GoodsDao goodsDao=session.getMapper(GoodsDao.class);
-        List<Goods> getGoodsByOrderId = goodsDao.getGoodsByOrderId(1);
-        for (Goods goods : getGoodsByOrderId) {
-            System.out.println(goods);
-        }
+        ContractDao mapper = session.getMapper(ContractDao.class);
+        System.out.println(mapper.sumAllGoods(1));
         session.close();
     }
     @Test

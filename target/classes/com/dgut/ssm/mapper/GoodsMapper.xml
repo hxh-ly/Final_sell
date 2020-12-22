@@ -5,13 +5,12 @@
 <mapper namespace="com.dgut.ssm.dao.GoodsDao">
     <!-- public List<Goods> getAllGoods();-->
     <select id="getAllGoods" resultType="com.dgut.ssm.bean.Goods">
-        select id, goods_name goodsName, price, amount
+        select id, goods_name goodsName, price, amount,category
         from test_rightcontrol.goods;
     </select>
     <!--    Goods getGoodsByCondition(Goods goods);-->
-    <select id="getGoodsByCondition" resultType="com.dgut.ssm.bean.Goods">
-
-        select id,goods_name goodsName,price,amount from test_rightcontrol.goods
+    <select id="getGoodsByCondition" resultMap="ConditionGoods">
+        select id,goods_name goodsName,price,amount,category from test_rightcontrol.goods
         <trim prefix="where" prefixOverrides="and">
             <if test="id!=null">
                 and id=#{id}
@@ -25,8 +24,18 @@
             <if test="amount!=null ">
                 and amount=#{amount}
             </if>
+            <if test="category!=null and category.trim()!=''">
+                and category like concat('%',#{category},'%')
+            </if>
         </trim>
     </select>
+    <resultMap id="ConditionGoods" type="com.dgut.ssm.bean.Goods">
+        <result property="id" column="id"/>
+        <result property="goodsName" column="goodsName"/>
+        <result property="price" column="price"/>
+        <result property="amount" column="amount"/>
+        <result property="category" column="category"/>
+    </resultMap>
     <!--public List<Goods> getGoodsByContractId(int id);-->
     <select id="getGoodsByContractId" resultType="com.dgut.ssm.bean.Goods">
         select g.id, goods_name goodsName, g.price, gom.amount, gom.status
@@ -42,16 +51,15 @@
 
     <!--getGoodsByOrderId-->
     <select id="getGoodsByOrderId" resultType="com.dgut.ssm.bean.Goods">
-        select g.id, goods_name goodsName, g.price, gom.amount, receipt.express_status isSend,gom.status isGenerate
+        select gom.id, goods_name goodsName, g.price, gom.amount, receipt.express_status isSend,gom.status isGenerate
         from test_rightcontrol.goods g,
              test_rightcontrol.goods_orders_merge gom,
              test_rightcontrol.orders o,
-             test_rightcontrol.contract c,
              test_rightcontrol.receipt
         where g.id = gom.gid
           and gom.oid = o.id
-          and o.contractId = c.id
           and o.id = #{id}
+
         and express_id=eid
     </select>
     <!-- getNeedNum-->
@@ -78,12 +86,17 @@
         from test_rightcontrol.goods_orders_merge
         where gid = #{gid}
           and oid = #{oid}
+        and amount=#{need}
     </select>
 
 <!--    public Goods getGoodsInEid(Integer eid);-->
     <select id="getGoodsInEid" resultType="com.dgut.ssm.bean.Goods">
         select goods.id,goods_name goodsName,price,goods.amount from test_rightcontrol.goods goods,test_rightcontrol.goods_orders_merge gom
         where  gom.gid=goods.id and gom.eid=#{eid}
+    </select>
+    <!--int getGoodIdByName(String name);-->
+    <select id="getGoodIdByName" resultType="int">
+        select id from test_rightcontrol.goods where goods_name like #{name}
     </select>
 </mapper>
 

@@ -14,4 +14,6 @@ public interface OrderDao {
     @Select("select contractId from orders where id=#{orderId}")
     public  Integer getOrder(@Param("orderId")int id);
 
+    public  Integer addOrder(Integer cid);
+    public Integer insertGoods(@Param("gid") Integer gid,@Param("oid")Integer oid,@Param("amount")Integer amount);
 }

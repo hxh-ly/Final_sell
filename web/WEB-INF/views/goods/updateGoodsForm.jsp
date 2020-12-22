@@ -17,7 +17,7 @@
 </head>
 <body>
 <div  id="layerJump">
-<form:form  modelAttribute="goods" class="layui-form"  action="${requestScope.request.contextPath }/goods/update" method="post">
+<form:form  modelAttribute="goodsForQuery" class="layui-form"  action="${requestScope.request.contextPath }/goods/updateGoods" method="post">
         <div class="layui-form-item">
             <div class="layui-input-block">
                 <form:hidden path="id"/>
@@ -35,8 +35,12 @@
             <div class="layui-input-block">
                 <form:input type="text"  path="amount" lay-verify="required"  autocomplete="off" class="layui-input"/>
             </div>
+            <label class="layui-form-label">类别</label>
+            <div class="layui-input-block">
+                <form:input type="text"  path="category" lay-verify="required"  autocomplete="off" class="layui-input"/>
+            </div>
         </div>
-    <input type="submit" value="submit" class="layui-btn layui-btn-normal">
+
 </form:form>
 </div>
 <script src="${pageContext.request.contextPath}/static/layui.js"></script>

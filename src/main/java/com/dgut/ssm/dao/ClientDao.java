@@ -22,4 +22,6 @@ public interface ClientDao {
     public List<Client> queryClientCondition(Client client);
 
     public Integer updateClient(Client client);
+    @Select("select id,name,phone,location from client where phone =#{phone}")
+    public Client GetByPhone(String phone);
 }

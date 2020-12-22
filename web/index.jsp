@@ -45,15 +45,15 @@
             <dl class="layui-nav-child">
               <dd><a href="javascript:;"
                      data-id="1"
-                     data-title="录入合同"
-                     data-url="${pageContext.request.contextPath}/contract/contractList" class="site-demo-active"
-                     data-type="tabAddContract">录入合同</a>
+                     data-title="查看合同"
+                     data-url="${pageContext.request.contextPath}/contract/toContractList" class="site-demo-active"
+                     data-type="tabAddContract">查看合同</a>
               </dd>
               <dd><a href="javascript:;"
                      data-id="2"
-                     data-title="修改合同"
-                     data-url="./src/contract/updateContract.html" class="site-demo-active"
-                     data-type="tabUpdateContract">修改合同</a>
+                     data-title="添加合同"
+                     data-url="${pageContext.request.contextPath}/contract/ToaddContract" class="site-demo-active"
+                     data-type="tabAddContract">添加合同</a>
               </dd>
               <dd><a href="javascript:;"
                      data-id="3"
@@ -73,13 +73,12 @@
             </dl>
           </li>
           </security:authorize>
-          <security:authorize access="hasAnyRole('ROLE_CLIENT')">
+          <security:authorize access="hasAnyRole('ROLE_STAFF')">
           <li class="layui-nav-item">
             <a href="javascript:;">管理销售人员信息</a>
             <dl class="layui-nav-child">
-              <dd><a href="javascript:;">增加销售人员信息</a></dd>
-              <dd><a href="javascript:;">修改销售人员信息</a></dd>
-              <dd><a href="javascript:;">查询销售人员信息</a></dd>
+              <dd><a href="javascript:;"data-id="51"
+                     class="site-demo-active"      data-title="查看销售人员信息" data-type="ShowStaff" data-url="${pageContext.request.contextPath}/staff/toShowList">销售员信息</a></dd>
             </dl>
           </li>
           </security:authorize>
@@ -87,10 +86,9 @@
           <li class="layui-nav-item">
             <a href="javascript:;">管理商品信息</a>
             <dl class="layui-nav-child">
-              <dd><a data-id="5" class="site-demo-active" data-title="管理商品信息" data-type="ShowGoods" data-url="${pageContext.request.contextPath}/goods/goodsList">管理商品信息</a></dd>
+              <dd><a data-id="5" class="site-demo-active" data-title="管理商品信息" data-type="ShowGoods" data-url="${pageContext.request.contextPath}/goods/toShowList">管理商品信息</a></dd>
               <dd><a data-id="6" class="site-demo-active" data-title="管理发货信息" data-type="GoodsDelivery" data-url="${pageContext.request.contextPath}/delivery/deliveryList">管理发货信息</a></dd>
               <dd><a data-id="7" class="site-demo-active" data-title="管理进货信息" data-type="ShowStock" data-url="${pageContext.request.contextPath}/stock/toShowStockList">管理进货信息</a></dd>
-              <dd><a href="javascript:;">删除商品信息</a></dd>
             </dl>
           </li>
           </security:authorize>
@@ -115,8 +113,6 @@
   <script>
     //定义模块
     layui.define(function(exports){
-      console.log("定义完的回调函数lay define")
-
       exports('demo',function(){
         alert('hello define!');
       })

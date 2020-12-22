@@ -12,4 +12,5 @@ public class Receipt {
     private  Integer expressStatus;
     private  String location;
     private Goods goods;
+    private Integer contractId;
 }

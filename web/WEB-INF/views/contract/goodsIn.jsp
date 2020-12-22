@@ -15,6 +15,8 @@
 </head>
 <body >
 <input type="button" class="layui-btn layui-btn-normal btn" onclick="window.location.href='${pageContext.request.contextPath}/contract/showOrder?cid=${requestScope.back}'" data-id="${g.id}" value="返回"/>
+<input type="button" class="layui-btn layui-btn-normal btn" onclick="addGoodsInOrder()"  value="添加货单"/>
+
 <table class="layui-table" lay-even lay-skin="nob" >
     <colgroup>
         <col width="150">
@@ -25,7 +27,7 @@
     </colgroup>
     <thead>
     <tr>
-        <th>商品ID</th>
+        <th>货单ID</th>
         <th>商品名称</th>
         <th>价格</th>
         <th>数量</th>
@@ -39,6 +41,7 @@
     <tbody id="test1">
     <c:forEach items="${requestScope.GoodsInOrder }" var="gi">
         <tr>
+        <%--    //id不是goodsId  而是订单下的货单id--%>
             <td>${gi.id}</td>
             <td>${gi.goodsName}</td>
             <td>${gi.price}</td>
@@ -49,8 +52,9 @@
                 <c:when test="${gi.isSend==1}">已发货</c:when>
             </c:choose>
             </td>
+
             <td><c:if test="${requestScope.contract.status==0}"><input type="button" class="layui-btn layui-btn-normal btn" onclick="window.location.href='${pageContext.request.contextPath}/contract/update?id=${gi.id}'"  value="update"/></c:if></td>
-            <td><c:if test="${gi.isGenerate==0}"><input type="button" class="layui-btn layui-btn-danger btn" onclick="window.location.href='${pageContext.request.contextPath}/contract/newReceipt?goodId=${gi.id}&orderId=${requestScope.orderId}&contractId=${contract.id}'"  value="生成"/></c:if></td>
+            <td><c:if test="${gi.isGenerate==0}"><input type="button" class="layui-btn layui-btn-danger btn" onclick="window.location.href='${pageContext.request.contextPath}/contract/newReceipt?goodsName=${gi.goodsName}&orderId=${requestScope.orderId}&contractId=${contract.id}&need=${gi.amount}'"  value="生成"/></c:if></td>
             <td><c:if test="${gi.isSend==0}"><input type="button" class="layui-btn layui-btn-danger btn" onclick="window.location.href='${pageContext.request.contextPath}/contract'"  value="进货单"/></c:if></td>
         </tr>
     </c:forEach>
@@ -70,6 +74,33 @@
             layer.msg("库存不足 请生成进货单");
 
     });
+</script>
+<script>
+   // window.location.href='${pageContext.request.contextPath}/order/addOrder?cid=${requestScope.back}&oid=${requestScope.orderId}'
+    function addGoodsInOrder() {
+        layui.use(['layer','jquery'], function(){
+            let layer = layui.layer;
+            let $=layui.jquery;
+            layer.open({
+                id:"addGoods",
+                type:2,
+                title:'添加',
+                content:'${pageContext.request.contextPath}/contract/PopGoodsAdd?cid=${requestScope.back}&oid=${requestScope.orderId}',
+                btn:["提交","取消"],
+                yes:function (index,layero){
+                    console.log("aaa")
+                    var body = layer.getChildFrame('body', index);
+                    var f = body.find("#toAddGoods");
+                    f.click();
+                    layer.close(index);
+                    setTimeout(function (){window.location.reload()},300);
+                },btn2: function (index,layero){
+                    layer.close(index);
+                }
+
+            })
+        });
+    }
 </script>
 </body>
 </html>

@@ -28,4 +28,8 @@ public class ClientServiceImpl implements ClientService {
     public Integer updateClient(Client client) {
         return clientDao.updateClient(client);
         }
+
+    public Client GetByPhone(String phone) {
+      return   clientDao.GetByPhone(phone);
+    }
 }

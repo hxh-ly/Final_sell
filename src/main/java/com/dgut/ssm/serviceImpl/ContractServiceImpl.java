@@ -7,8 +7,11 @@ import com.dgut.ssm.dao.ContractDao;
 import com.dgut.ssm.service.ContractService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
+
 @Service
 public class ContractServiceImpl implements ContractService {
     @Autowired
@@ -23,11 +26,30 @@ public class ContractServiceImpl implements ContractService {
         return clientDao.getClientById(id);
     }
 
-    public void ChangeStatus(int contractId) {
-        contractDao.ChangeStatus(contractId);
+    public void ChangeStatus(int contractId,int status) {
+        contractDao.ChangeStatus(contractId,status);
     }
 
     public Contract getContractById(int contractId) {
       return   contractDao.getContractById(contractId);
+    }
+
+    @Transactional
+    public int InsertContract(Contract contract) {
+        Integer i=0;
+        try {
+            i=contractDao.InsertContract(contract);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return  i;
+    }
+
+    public List<Contract> queryContractCondition(Map map) {
+        return  contractDao.queryContractCondition(map);
+    }
+
+    public Integer sumAllGoods(int cid) {
+       return contractDao.sumAllGoods(cid);
     }
 }

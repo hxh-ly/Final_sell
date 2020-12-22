@@ -5,20 +5,23 @@
 <mapper namespace="com.dgut.ssm.dao.OrderDao">
     <!--public List<Orders> getOrderByContractId(int id);-->
     <select id="getOrderByContractId" resultMap="OrdersMap">
-        select o.id oid,contractId ,g.id goodid,g.price,g.goods_name,gom.amount gomAmount
-
-        from test_rightcontrol.orders o,test_rightcontrol.goods_orders_merge gom,
-             test_rightcontrol.goods g
-        where contractId=#{id} and gom.oid=o.id and gom.gid =g.id
+        select id from test_rightcontrol.orders where contractId=#{cid}
     </select>
     <resultMap id="OrdersMap" type="com.dgut.ssm.bean.Orders">
-        <result property="id" column="oid"/>
+        <result property="id" column="id"/>
         <collection property="goods" ofType="com.dgut.ssm.bean.Goods" >
-            <result property="id" column="goodid"/>
-            <result property="price" column="price"/>
-            <result property="goodsName" column="goods_name"/>
-            <result property="amount" column="gomAmount"/>
+
         </collection>
     </resultMap>
+
+<!--    public  Integer addOrder(Integer cid);-->
+    <insert id="addOrder" >
+        insert into test_rightcontrol.orders values (null,#{cid})
+    </insert>
+    <!--public Integer insertGoods(@Param("gid") Integer gid,@Param("oid")Integer oid,@Param("amount")Integer amount);-->
+    <insert id="insertGoods" >
+        insert into test_rightcontrol.goods_orders_merge values (null,#{gid},#{oid},#{amount},0,0)
+    </insert>
+
 </mapper>
 

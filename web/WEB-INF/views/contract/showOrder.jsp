@@ -15,7 +15,8 @@
 </head>
 <body>
 
-<input type="button" class="layui-btn layui-btn-normal btn" onclick="window.location.href='${pageContext.request.contextPath}/contract/contractList'" data-id="${g.id}" value="返回"/>
+<input type="button" class="layui-btn layui-btn-normal btn" onclick="window.location.href='${pageContext.request.contextPath}/contract/toContractList'"  value="返回"/>
+<input type="button" class="layui-btn layui-btn-normal btn" onclick="addOrder()"  value="添加清单"/>
 <table class="layui-table" lay-even lay-skin="nob" >
     <colgroup>
         <col width="150">
@@ -43,6 +44,23 @@
     </tbody>
 </table>
 <script src="${pageContext.request.contextPath}/static/layui.js"></script>
+<script>
+    function addOrder(){
+        let cid=${requestScope.contractId}
+            layui.use(['layer','jquery'], function(){
+                let layer = layui.layer;
+                let $=layui.jquery;
+                //添加清单
+                $.ajax({
+                    url:'${pageContext.request.contextPath}/contract/addOrder?cid='+cid,
+                    success:(res=>{
+                        alert("添加清单成功，请录入清单物品")
+                        window.location.reload()
+                    })
+                })
+            });
+    }
+</script>
 <script>
     let a="${requestScope.msg}"
     console.log(a)
