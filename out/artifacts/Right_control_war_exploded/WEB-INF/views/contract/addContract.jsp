@@ -102,6 +102,11 @@
                                //window.location.reload();
                                window.location.href="${pageContext.request.contextPath}/contract/toContractList"
                            }
+                           if(res.code==101){
+                               alert("合同录入失败,请查看号码是否正确");
+                               window.location.href="${pageContext.request.contextPath}/contract/ToaddContract"
+
+                           }
 
                        })
                    }

@@ -88,7 +88,8 @@
             <dl class="layui-nav-child">
               <dd><a data-id="5" class="site-demo-active" data-title="管理商品信息" data-type="ShowGoods" data-url="${pageContext.request.contextPath}/goods/toShowList">管理商品信息</a></dd>
               <dd><a data-id="6" class="site-demo-active" data-title="管理发货信息" data-type="GoodsDelivery" data-url="${pageContext.request.contextPath}/delivery/deliveryList">管理发货信息</a></dd>
-              <dd><a data-id="7" class="site-demo-active" data-title="管理进货信息" data-type="ShowStock" data-url="${pageContext.request.contextPath}/stock/toShowStockList">管理进货信息</a></dd>
+              <dd><a data-id="7" class="site-demo-active" data-title="管理进货信息" data-type="ShowStock" data-url="${pageContext.request.contextPath}/stock/toShowStockList">进货记录</a></dd>
+              <dd><a data-id="8" class="site-demo-active" data-title="管理待进货信息" data-type="WaittoStock" data-url="${pageContext.request.contextPath}/stock/goWaitToStock">管理待进货信息</a></dd>
             </dl>
           </li>
           </security:authorize>
@@ -103,11 +104,7 @@
       <div class="layui-tab-content"></div>
     </div>
 
-    <!--    <div class="layui-footer" style="text-align:center;">-->
-    <!--        &lt;!&ndash; 底部固定区域 &ndash;&gt;-->
-    <!--&lt;!&ndash;        © sunway.tk XXXX业务管理平台&ndash;&gt;-->
-    <!--        智能开票系统-->
-    <!--    </div>-->
+
   </div>
   <script src="/static/layui.js"></script>
   <script>
@@ -159,10 +156,10 @@
           //关于tabAdd的方法所传入的参数可看layui的开发文档中基础方法部分
           element.tabAdd('demo', {
             title: name,
-            content: '<iframe data-frameid="' + id + '" scrolling="auto" frameborder="0" src="' + url + '" style="width:100%;height:99%;"></iframe>',
+            content: '<iframe data-frameid="' + id + '" scrolling="yes" frameborder="0" src="' + url + '" style="width:100%;height:550px;"></iframe>',
             id: id //规定好的id
           })
-          FrameWH();  //计算ifram层的大小
+          //FrameWH();  //计算ifram层的大小
         },
         tabChange: function (id) {
           //切换到指定Tab项

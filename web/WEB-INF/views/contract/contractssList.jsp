@@ -114,7 +114,17 @@
 <script type="text/html" id="buttonTpl">
 
     <input type="button" class="layui-btn layui-btn-danger layui-btn layui-btn-xs" value="详情" lay-event="detail" >
+    {{#  if(d.status==0){ }}
     <input type="button" class="layui-btn layui-btn-danger layui-btn layui-btn-xs" value="修改" lay-event="edit" >
+    {{#  } }}
+</script>
+<script type="text/html" id="isStatus">
+    {{#  if(d.status==0){ }}
+    <div>未履行</div>
+
+    {{#  } else { }}
+    <div>履行完毕</div>
+    {{#  } }}
 </script>
 <script src="${pageContext.request.contextPath}/static/layui.js"></script>
 <script>
@@ -131,7 +141,18 @@
                 ,{field: 'd.client.phone', title: '客户电话', width:120,templet: '<div>{{d.client.phone}}</div>'},
                 ,{field: 'd.staff.phone', title: '销售员电话', width:120,templet: '<div>{{d.staff.phone}}</div>'}
                 ,{field: 'signdate', title: '签订日期', width:200}
-                ,{field: 'status', title: '合同状态', width:200}
+                ,{field: 'status', title: '合同状态', width:200,templet:
+                        function (d){
+                    if(d.status==0)
+                        {return  '<div>未履行</div>'}
+                        if(d.status==1){
+                            return  '<div>正履行</div>'
+                        }
+                        if(d.status==2){
+                            return  '<div>履行完毕</div>'
+                        }
+
+                }}
                 ,{field: "update",title: "操作",templet:"#buttonTpl",width:200}
             ]]
         });
@@ -153,10 +174,10 @@
                     let $=layui.jquery;
                     //修改合同信息
                     layer.open({
-                        id:"updateClient",
+                        id:"updateContract",
                         type:2,
                         title:'修改',
-                        content:'${pageContext.request.contextPath}/contract/PopContract?id='+cid,
+                        content:'${pageContext.request.contextPath}/contract/PopContract?cid='+cid,
                         btn:["提交","取消"],
                         yes:function (index,layero){
                             var body = layer.getChildFrame('body', index);

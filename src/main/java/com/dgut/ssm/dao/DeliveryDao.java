@@ -1,6 +1,7 @@
 package com.dgut.ssm.dao;
 
 import com.dgut.ssm.bean.Delivery;
+import com.dgut.ssm.bean.WaitingList;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -16,4 +17,6 @@ public interface DeliveryDao {
     public  int getDeliveryGid(Integer eid);
     public Integer updateQuantity(@Param("amount") Integer amount, @Param("gid") Integer gid);
     public  int addGoodsQuantity(@Param("amount") Integer amount,@Param("gid")Integer gid);
+
+
 }

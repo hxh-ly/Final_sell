@@ -16,7 +16,9 @@
 <body>
 
 <input type="button" class="layui-btn layui-btn-normal btn" onclick="window.location.href='${pageContext.request.contextPath}/contract/toContractList'"  value="返回"/>
+<c:if test="${requestScope.contract.status==0}">
 <input type="button" class="layui-btn layui-btn-normal btn" onclick="addOrder()"  value="添加清单"/>
+</c:if>
 <table class="layui-table" lay-even lay-skin="nob" >
     <colgroup>
         <col width="150">

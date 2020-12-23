@@ -1,6 +1,7 @@
 package com.dgut.ssm.serviceImpl;
 
 import com.dgut.ssm.bean.Delivery;
+import com.dgut.ssm.bean.WaitingList;
 import com.dgut.ssm.dao.DeliveryDao;
 import com.dgut.ssm.dao.GoodsDao;
 import com.dgut.ssm.exception.QuantityException;
@@ -52,5 +53,7 @@ public class DeliveryServiceImpl implements DeliveryService {
         }
         return i+3;
     }
+
+
 
 }

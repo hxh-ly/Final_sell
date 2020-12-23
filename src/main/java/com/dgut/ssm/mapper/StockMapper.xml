@@ -11,5 +11,16 @@
     <select id="getAllStock" resultType="com.dgut.ssm.bean.Stock">
         select id,goods_name,num,deliver_date,user_name from test_rightcontrol.stock
     </select>
+
+    <!--public  List<WaitingList> getWaitingList();-->
+    <select id="getWaitingList" resultType="com.dgut.ssm.bean.WaitingList">
+        select  order_gid as id,goods_name,num from test_rightcontrol.less_to_stock
+    </select>
+
+    <!--public Map<String,Object> getNumNameByOgid(Integer ogid);-->
+    <select id="getNumNameByOgid" resultType="Map">
+        select gom.amount,goods_name from test_rightcontrol.goods_orders_merge gom,test_rightcontrol.goods g where gom.id=#{ogid}
+        and gid=g.id and eid=0
+    </select>
 </mapper>
 

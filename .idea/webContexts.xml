@@ -5,7 +5,9 @@
       <map>
         <entry key="file://$PROJECT_DIR$/web/WEB-INF/views/contract/contractssList.jsp" value="file://$PROJECT_DIR$/web/WEB-INF/views/contract" />
         <entry key="file://$PROJECT_DIR$/web/WEB-INF/views/contract/goodsIn.jsp" value="file://$PROJECT_DIR$/web/WEB-INF/views/contract" />
+        <entry key="file://$PROJECT_DIR$/web/WEB-INF/views/contract/updateContractForm.jsp" value="file://$PROJECT_DIR$/web/WEB-INF/views/contract" />
         <entry key="file://$PROJECT_DIR$/web/WEB-INF/views/goods/updateGoods.jsp" value="file://$PROJECT_DIR$/web/WEB-INF/views/goods" />
+        <entry key="file://$PROJECT_DIR$/web/WEB-INF/views/stock/waitToStock/addWaitingStock.jsp" value="file://$PROJECT_DIR$/web/WEB-INF/views/stock/waitToStock" />
         <entry key="file://$PROJECT_DIR$/web/index.jsp" value="file://$PROJECT_DIR$/web" />
       </map>
     </option>

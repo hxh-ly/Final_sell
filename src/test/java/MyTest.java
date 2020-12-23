@@ -80,15 +80,20 @@ map.put("cphone","13144829823");
     }
     @Test
     void Del(){
-        ContractDao mapper = session.getMapper(ContractDao.class);
-        System.out.println(mapper.sumAllGoods(1));
+        ReceiptDao mapper = session.getMapper(ReceiptDao.class);
+        mapper.UpdateAmountMid(6,34);
         session.close();
     }
     @Test
     void add(){
         StockDao mapper = session.getMapper(StockDao.class);
-        Stock a=new Stock(1234,"锤子",22,new Date(1608134400000L),"wh");
-      mapper.addStock(a);
+        //Stock a=new Stock(1234,"锤子",22,new Date(1608134400000L),"wh");
+        //Map<String, Object> numNameByOgid = mapper.getNumNameByOgid(13);
+        //System.out.println(numNameByOgid.toString());
+        List<WaitingList> waitingList = mapper.getWaitingList();
+        for (WaitingList list : waitingList) {
+            System.out.println(list);
+        }
         session.close();
 
     }

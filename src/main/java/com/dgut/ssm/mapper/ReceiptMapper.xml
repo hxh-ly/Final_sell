@@ -21,5 +21,12 @@
     <select id="isAllSend" resultType="int">
         select receipt.express_status from test_rightcontrol.receipt where cid=#{cid}
     </select>
+
+    <!--public  void UpdateAmountMid(@Param("O_gid") Integer O_gid,@Param("amount") Integer amount);-->
+    <update id="UpdateAmountMid" >
+        update test_rightcontrol.goods_orders_merge set amount=#{amount} where id=#{O_gid} and eid=0
+    </update>
+
 </mapper>
+
 

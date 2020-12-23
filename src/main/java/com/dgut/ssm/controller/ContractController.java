@@ -47,7 +47,7 @@ public class ContractController {
 
     @GetMapping("ToaddContract")
     public String ToaddContract(Model model) {
-        int contractId = (int) (Math.round((Math.random() + 1) * 100));
+        int contractId = (int) (Math.round((Math.random() + 1) * 10000));
         Contract nullContact = new Contract(contractId, null, 0, null, null, null);
         //model.addAttribute("contract",nullContact);
         return "contract/addContract";
@@ -66,8 +66,9 @@ public class ContractController {
             contract.setStaff(staff);
             contract.setClient(client);
             contractService.InsertContract(contract);
+            return APIResult.createOKMessage("success to add contract");
         }
-        return APIResult.createOKMessage("OK");
+       else  return APIResult.createNg("fail to add contract");
     }
 
     @RequestMapping("queryContract")
@@ -83,9 +84,10 @@ public class ContractController {
     }
 
     @GetMapping("PopContract")
-    public String PopContract(Model model, @RequestParam(value = "id") Integer id) {
-        Contract nullContract = new Contract();
-        model.addAttribute("Contract", nullContract);
+    public String PopContract(Model model, @RequestParam(value = "cid") Integer cid) {
+        Contract contract = contractService.getContractById(cid);
+
+        model.addAttribute("contract", contract);
         return "contract/updateContractForm";
     }
 
@@ -94,8 +96,10 @@ public class ContractController {
         //合同id
         Integer contractId = cid;
         System.out.println(contractId);
-        //合同id对应的清单们
+        //
+        Contract contract = contractService.getContractById(contractId);
 
+        //合同id对应的清单们
         List<Orders> ContainOrder = orderService.getOrderByConId(contractId);
         //通过good_order 表 获取
         System.out.println(ContainOrder);
@@ -103,6 +107,7 @@ public class ContractController {
         model.addAttribute("ContainOrder", ContainOrder);
         //发送给页面的合同id
         model.addAttribute("contractId", contractId);
+        model.addAttribute("contract", contract);
         return "/contract/showOrder";
     }
 
@@ -151,19 +156,19 @@ public class ContractController {
         //通过货名找goodsId
         int gid = goodsService.getGoodIdByName(goodsName);
         //值存在能添加
-        if (gid != 0 && oid != 0 && amount != 0&&orderService.insertGoods(gid, oid, amount) == 1)
+        if (gid != 0 && oid != 0 && amount != 0 && orderService.insertGoods(gid, oid, amount) == 1)
         // 插入中间表gom(gid,oid,数量)
         {
-                return APIResult.createOKMessage("OK");
+            return APIResult.createOKMessage("OK");
 
-        }
-        else
+        } else
             return APIResult.createNg("Fail");
     }
 
     @GetMapping("/newReceipt")
     public String newReceipt(@Param("goodsName") String goodsName, @Param("orderId") Integer orderId, @Param("contractId") Integer contractId,
-              @RequestParam("need")Integer needNum  , Model model) throws IOException {
+                             @RequestParam("need") Integer needNum, Model model) throws IOException {
+
         //如果库存够 1.增加一张发货单，
         //          2.将合同状态修改 同时（清单，合同）不可修改
         //          3.修改仓库管理员的发货单有记录,能发货
@@ -177,15 +182,15 @@ public class ContractController {
         model.addAttribute("orderId", orderId);
         model.addAttribute("contractId", contractId);
         int goodId = goodsService.getGoodIdByName(goodsName);
-        Goods goodsById=goodsService.getGoodsById(goodId);
+        Goods goodsById = goodsService.getGoodsById(goodId);
         //总数
         int total = goodsById.getAmount();
         //订单需要的数量
         //Goods needNum = goodsService.getNeedNum(goodId, orderId);
         //int need = needNum.getAmount();
-        int need=needNum;
+        int need = needNum;
         if (need <= total) {
-            if (goodsService.checkIsEid(goodId, orderId,need) != 0) {//如果发货单存在
+            if (goodsService.checkIsEid(goodId, orderId, need) != 0) {//如果发货单存在
                 //1.通过有orderId 和 goodId 查找合同里的客户地址
                 //2.生成发货单(订单，状态，客户地址)
                 //提示失败
@@ -196,11 +201,11 @@ public class ContractController {
                 Client client = contractService.GetClient(cid);
                 String location = client.getLocation();
                 Integer expressId = (int) (Math.round((Math.random() + 1) * 1000));
-                Receipt receipt = new Receipt(expressId, 0, location, null,contractId);
+                Receipt receipt = new Receipt(expressId, 0, location, null, contractId);
                 //添加发货单 发货单里有一个合同id？
                 receiptService.addReceipt(receipt);
                 //录到中间表里
-                receiptService.addInMerge(receipt.getExpressId(), orderId, goodId,need);
+                receiptService.addInMerge(receipt.getExpressId(), orderId, goodId, need);
 
                 //判断现在所有货单是否发货完 完合同状态就是2了
 
@@ -218,5 +223,24 @@ public class ContractController {
 
         return "redirect:/contract/showGoods";
     }
+
+    @RequestMapping("PopUpdateOgoods")
+    public String PopUpdateOgoods(@RequestParam("O_gid") Integer O_gid, Model model) {
+        model.addAttribute("O_gid", O_gid);
+        return "/contract/updateContractForm";
+    }
+
+    @RequestMapping("/updateOGoods")
+    @ResponseBody
+    public APIResult updateOGoods(@RequestBody Map map) {
+        //得到数据
+        Integer o_gid = (Integer) map.get("oid");
+        Integer amount = (Integer) map.get("amount");
+        //通过O_gid在gom表修改数量
+        if (receiptService.UpdateAmountMid(o_gid, amount) == 1)
+            return APIResult.createOKMessage("success to update goods In orders");
+        else return APIResult.createNg("fail to update goods In orders");
+    }
+
 }
 

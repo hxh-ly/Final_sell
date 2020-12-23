@@ -29,4 +29,8 @@ public class ReceiptServiceImpl implements ReceiptService {
     public List<Integer> isAllSend(Integer cid) {
         return  receiptDao.isAllSend(cid);
     }
+
+    public Integer UpdateAmountMid(Integer O_gid, Integer amount) {
+        return receiptDao.UpdateAmountMid(O_gid, amount);
+    }
 }
