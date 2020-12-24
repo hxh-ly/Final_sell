@@ -13,6 +13,8 @@ public interface DeliveryDao {
     public int  updateStatus(Integer eid);
     //修改中间表是否发货状态
     public  int updateGom(Integer eid);
+    //修改待进货表是否进货状态
+    public  int updateWaitStock(Integer O_gid);
     public  int getDeliveryAmount(Integer eid);
     public  int getDeliveryGid(Integer eid);
     public Integer updateQuantity(@Param("amount") Integer amount, @Param("gid") Integer gid);

@@ -39,4 +39,8 @@ public class StockServiceImpl implements StockService {
     public Map<String, Object> getNumNameByOgid(Integer ogid) {
         return stockDao.getNumNameByOgid(ogid);
     }
+
+    public Integer newAStock(WaitingList waitingList) {
+        return stockDao.newAStock(waitingList);
+    }
 }

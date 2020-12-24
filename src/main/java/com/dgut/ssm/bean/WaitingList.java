@@ -11,4 +11,6 @@ public class WaitingList {
     private Integer id;
     private String goodsName;
     private Integer num;
+    private Integer O_gid;
+    private Boolean isStock;
 }

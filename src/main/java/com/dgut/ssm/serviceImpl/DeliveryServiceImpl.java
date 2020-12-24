@@ -54,6 +54,18 @@ public class DeliveryServiceImpl implements DeliveryService {
         return i+3;
     }
 
+    public int updateQuantityByGid(Integer amount, Integer gid) {
+            int i=0;
+        try {
+            i = deliveryDao.addGoodsQuantity(amount,gid);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return i+3;
+    }
 
+    public int updateWaitStock(Integer O_gid) {
+        return deliveryDao.updateWaitStock(O_gid);
+    }
 
 }

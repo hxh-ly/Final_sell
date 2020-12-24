@@ -1,13 +1,13 @@
 <%@ page isELIgnored="false" contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@taglib uri="http://www.springframework.org/security/tags" prefix="security"  %>
+<%@taglib uri="http://www.springframework.org/security/tags" prefix="security" %>
 <%response.setHeader("X-Frame-Options", "SAMEORIGIN");%>
 <html>
 <head>
     <title>Title</title>
     <link rel="stylesheet" href="/static/css/layui.css">
     <meta name="_csrf" content="${_csrf.token}"/>
-    <meta  name="_csrf_header" content="${_csrf.headerName}"/>
+    <meta name="_csrf_header" content="${_csrf.headerName}"/>
 </head>
 <body>
 
@@ -25,20 +25,23 @@
             <div class="layui-inline">
                 <label class="layui-form-label">客户号码</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="cphone" id="cphone" placeholder="请输入" autocomplete="off" class="layui-input">
+                    <input type="text" name="cphone" id="cphone" placeholder="请输入" autocomplete="off"
+                           class="layui-input">
                 </div>
             </div>
             <div class="layui-inline">
                 <label class="layui-form-label">销售员号码</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="sphone" id="sphone" placeholder="请输入"  autocomplete="off" class="layui-input">
+                    <input type="text" name="sphone" id="sphone" placeholder="请输入" autocomplete="off"
+                           class="layui-input">
                 </div>
             </div>
             <div class="layui-inline">
                 <label class="layui-form-label">签约日期</label>
                 <div class="layui-input-inline">
                     <div class="layui-input-inline">
-                        <input type="text" name="signdate" id="signdate" placeholder="请输入" autocomplete="off" class="layui-input">
+                        <input type="text" name="signdate" id="signdate" placeholder="请输入" autocomplete="off"
+                               class="layui-input">
                     </div>
                 </div>
             </div>
@@ -46,12 +49,13 @@
                 <label class="layui-form-label">合同状态</label>
                 <div class="layui-input-inline">
                     <div class="layui-input-inline">
-                        <input type="text" name="status" id="status" placeholder="请输入" autocomplete="off" class="layui-input">
+                        <input type="text" name="status" id="status" placeholder="请输入" autocomplete="off"
+                               class="layui-input">
                     </div>
                 </div>
             </div>
             <div class="layui-inline">
-                <input type="button"  onclick="sendClick()" class="layui-btn layui-btn-normal btn" value="查询"/>
+                <input type="button" onclick="sendClick()" class="layui-btn layui-btn-normal btn" value="查询"/>
             </div>
 
         </div>
@@ -113,9 +117,9 @@
 <table id="contract" lay-filter="test"></table>
 <script type="text/html" id="buttonTpl">
 
-    <input type="button" class="layui-btn layui-btn-danger layui-btn layui-btn-xs" value="详情" lay-event="detail" >
+    <input type="button" class="layui-btn layui-btn-danger layui-btn layui-btn-xs" value="详情" lay-event="detail">
     {{#  if(d.status==0){ }}
-    <input type="button" class="layui-btn layui-btn-danger layui-btn layui-btn-xs" value="修改" lay-event="edit" >
+    <input type="button" class="layui-btn layui-btn-danger layui-btn layui-btn-xs" value="修改" lay-event="edit">
     {{#  } }}
 </script>
 <script type="text/html" id="isStatus">
@@ -128,65 +132,69 @@
 </script>
 <script src="${pageContext.request.contextPath}/static/layui.js"></script>
 <script>
-    var tb=null
-    layui.use(['table','form'], function(){
+    var tb = null
+    layui.use(['table', 'form'], function () {
         let table = layui.table;
-        let form=layui.form;
-        tb= table.render({
+        let form = layui.form;
+        tb = table.render({
             elem: '#contract'
-            ,url: '${pageContext.request.contextPath}/contract/contractList' //数据接口
-            ,page: true,//开启分页
+            , url: '${pageContext.request.contextPath}/contract/contractList' //数据接口
+            , page: true,//开启分页
             cols: [[ //表头
-                {field: 'id', title: '合同ID', width:120, sort: true, fixed: 'left'}
-                ,{field: 'd.client.phone', title: '客户电话', width:120,templet: '<div>{{d.client.phone}}</div>'},
-                ,{field: 'd.staff.phone', title: '销售员电话', width:120,templet: '<div>{{d.staff.phone}}</div>'}
-                ,{field: 'signdate', title: '签订日期', width:200}
-                ,{field: 'status', title: '合同状态', width:200,templet:
-                        function (d){
-                    if(d.status==0)
-                        {return  '<div>未履行</div>'}
-                        if(d.status==1){
-                            return  '<div>正履行</div>'
-                        }
-                        if(d.status==2){
-                            return  '<div>履行完毕</div>'
-                        }
+                {field: 'id', title: '合同ID', width: 120, sort: true, fixed: 'left'}
+                , {field: 'd.client.phone', title: '客户电话', width: 120, templet: '<div>{{d.client.phone}}</div>'},
+                , {field: 'd.staff.phone', title: '销售员电话', width: 120, templet: '<div>{{d.staff.phone}}</div>'}
+                , {field: 'signdate', title: '签订日期', width: 200, sort: true}
+                , {
+                    field: 'status', title: '合同状态', width: 200, templet:
+                        function (d) {
+                            if (d.status == 0) {
+                                return '<div>未履行</div>'
+                            }
+                            if (d.status == 1) {
+                                return '<div>正履行</div>'
+                            }
+                            if (d.status == 2) {
+                                return '<div>履行完毕</div>'
+                            }
 
-                }}
-                ,{field: "update",title: "操作",templet:"#buttonTpl",width:200}
+                        }
+                }
+                , {field: "update", title: "操作", templet: "#buttonTpl", width: 200}
             ]]
         });
-        table.on('tool(test)', function(obj){
+        table.on('tool(test)', function (obj) {
             var data = obj.data;
-            if(obj.event === 'detail'){
+            if (obj.event === 'detail') {
                 //跳转到查看清单详情
-                window.location.href='${pageContext.request.contextPath}/contract/showOrder?cid='+data.id
-            } else if(obj.event === 'del'){
-                layer.confirm('真的删除行么', function(index){
+                window.location.href = '${pageContext.request.contextPath}/contract/showOrder?cid=' + data.id
+            } else if (obj.event === 'del') {
+                layer.confirm('真的删除行么', function (index) {
                     obj.del();
                     layer.close(index);
                 });
-            } else if(obj.event === 'edit'){
+            } else if (obj.event === 'edit') {
                 //弹窗修改框 data.id
-                let cid=data.id
-                layui.use(['layer','jquery'], function(){
+                let cid = data.id
+                layui.use(['layer', 'jquery'], function () {
                     let layer = layui.layer;
-                    let $=layui.jquery;
+                    let $ = layui.jquery;
                     //修改合同信息
                     layer.open({
-                        id:"updateContract",
-                        type:2,
-                        title:'修改',
-                        content:'${pageContext.request.contextPath}/contract/PopContract?cid='+cid,
-                        btn:["提交","取消"],
-                        yes:function (index,layero){
+                        id: "updateContract",
+                        type: 2,
+                        title: '修改',
+                        content: '${pageContext.request.contextPath}/contract/PopContract?cid=' + cid,
+                        btn: ["提交", "取消"],
+                        yes: function (index, layero) {
                             var body = layer.getChildFrame('body', index);
                             var f = body.find(".layui-form");
                             f.submit();
                             layer.close(index);
-                            setTimeout(function (){
-                                tb.reload()},300);
-                        },btn2: function (index,layero){
+                            setTimeout(function () {
+                                tb.reload()
+                            }, 300);
+                        }, btn2: function (index, layero) {
                             layer.close(index);
                         }
 
@@ -197,31 +205,32 @@
     });
 </script>
 <script>
-    let a="${requestScope.msg}"
-        console.log(a)
-    layui.use('layer', function(){
+    let a = "${requestScope.msg}"
+    console.log(a)
+    layui.use('layer', function () {
         var layer = layui.layer;
-        if(a==0&&a!='')
-        layer.msg("勿重复生成发货单");
-        if(a==1)
+        if (a == 0 && a != '')
+            layer.msg("勿重复生成发货单");
+        if (a == 1)
             layer.msg("生成发货单成功");
     });
 </script>
 <script>
-    function sendClick(){
-        layui.use(['table','form'], function(){
-            let table=layui.table;
+    function sendClick() {
+        layui.use(['table', 'form'], function () {
+            let table = layui.table;
             var $ = layui.$;
             var header = $("meta[name='_csrf_header']").attr("content");
-            var token =$("meta[name='_csrf']").attr("content");
-            let id =$.trim($('.layui-input-inline #id').val());
+            var token = $("meta[name='_csrf']").attr("content");
+            let id = $.trim($('.layui-input-inline #id').val());
             let status = $.trim($('.layui-input-inline #status').val());
             let cphone = $('.layui-input-inline #cphone').val();
             let sphone = $('.layui-input-inline #sphone').val();
             let signdate = $('#signdate').val();
-          /*  $.ajax(
-                {
-                    url:"${pageContext.request.contextPath}/contract/queryContract",
+            /*  $.ajax(
+                  {
+                      url:"
+            ${pageContext.request.contextPath}/contract/queryContract",
                     type:"POST",
                     data:JSON.stringify({
                         "id":parseInt(id),
@@ -249,40 +258,42 @@
                 }
             )*/
             table.reload('contract', {
-                url:"${requestScope.request.contextPath }/contract/queryContract",
+                url: "${requestScope.request.contextPath }/contract/queryContract",
                 where: {
-                    id:id!=''?id:null,
-                    status: status!=''?status:null
-                    ,cphone: cphone!=''?cphone:null
-                    ,sphone: sphone!=''?sphone:null
-                    ,signdate:signdate
+                    id: id != '' ? id : null,
+                    status: status != '' ? status : null
+                    , cphone: cphone != '' ? cphone : null
+                    , sphone: sphone != '' ? sphone : null
+                    , signdate: signdate
                 }
-                    ,contentType: 'application/json'
-                    , method:'POST'
-                });
+                , contentType: 'application/json'
+                , method: 'POST'
+            });
 
         })
 
     }
 
     function clickMe(e) {
-        layui.use(['layer','jquery'], function(){
+        layui.use(['layer', 'jquery'], function () {
             let layer = layui.layer;
-            let $=layui.jquery;
+            let $ = layui.jquery;
             layer.open({
-                id:"addClient",
-                type:2,
-                title:'添加',
-                content:'${pageContext.request.contextPath}/client/PopClient?flag=1',
-                btn:["提交","取消"],
-                yes:function (index,layero){
+                id: "addClient",
+                type: 2,
+                title: '添加',
+                content: '${pageContext.request.contextPath}/client/PopClient?flag=1',
+                btn: ["提交", "取消"],
+                yes: function (index, layero) {
                     console.log("aaa")
                     var body = layer.getChildFrame('body', index);
                     var f = body.find(".layui-form");
                     f.submit();
                     layer.close(index);
-                    setTimeout(function (){tb.reload()},300);
-                },btn2: function (index,layero){
+                    setTimeout(function () {
+                        tb.reload()
+                    }, 300);
+                }, btn2: function (index, layero) {
                     layer.close(index);
                 }
 

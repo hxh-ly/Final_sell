@@ -3,6 +3,7 @@ package com.dgut.ssm.controller;
 import com.dgut.ssm.bean.Delivery;
 import com.dgut.ssm.bean.Goods;
 import com.dgut.ssm.bean.Stock;
+import com.dgut.ssm.common.APIResult;
 import com.dgut.ssm.service.*;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,24 +86,31 @@ public class DeliveryController {
         return "/stock/addStock";
     }
 
+    //在销售管理员生成进货单时，未进货列表进货使用
     @RequestMapping("goodsStock")
     @ResponseBody
-    public String formStock(@ModelAttribute("stock") Stock stock) {
+    public APIResult formStock(@ModelAttribute("stock") Stock stock) {
+        //提取stockId中的O_gid
+        int O_gid = (stock.getId() - 1024) / 10000;
+        System.out.println(O_gid+"   -======================================================");
         try {
             //加入进货记录里
-                if(stock.getId()>10000){
-                    int goodId = goodsService.getGoodIdByName(stock.getGoodsName());
-                    //goodsService.updateGoods();
-                }
-                else
-            System.out.println(stock);
+            if (stock.getId() > 10000) {
+                int goodId = goodsService.getGoodIdByName(stock.getGoodsName());
+                //goodsService.updateGoods();
+                //goodsService.getGoodsById(goodId);
+                deliveryService.updateQuantityByGid(stock.getNum(), goodId);
+                deliveryService.updateWaitStock(O_gid);
+            } else {
+                deliveryService.addGoodsQuantity(stock.getNum(), stock.getId() + extra);
+            }
+            //修改待进货单里的进货状态，通过中间表O_gid找到
+
             stockService.addStock(stock);
-            deliveryService.addGoodsQuantity(stock.getNum(), stock.getId() + extra);
-            //找不到eid
-            return "ok";
+            return APIResult.createOKMessage("success stock");
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "fail";
+        return APIResult.createNg("fail stock");
     }
 }

@@ -29,6 +29,8 @@ public class ContractController {
     private GoodsService goodsService;
     @Autowired
     private ReceiptService receiptService;
+    @Autowired
+    private StockService stockService;
 
     @GetMapping("/toContractList")
     public String toContractList() {
@@ -67,8 +69,7 @@ public class ContractController {
             contract.setClient(client);
             contractService.InsertContract(contract);
             return APIResult.createOKMessage("success to add contract");
-        }
-       else  return APIResult.createNg("fail to add contract");
+        } else return APIResult.createNg("fail to add contract");
     }
 
     @RequestMapping("queryContract")
@@ -242,5 +243,21 @@ public class ContractController {
         else return APIResult.createNg("fail to update goods In orders");
     }
 
+    @RequestMapping("/newAStock")
+    @ResponseBody
+    public APIResult newAStock(@RequestParam("O_gid") Integer O_gid) {
+        //在less_to_stock表插入数据，
+        //通过O_gid 在中间表查
+        System.out.println(O_gid+"            !!OID!!           ");
+        Map<String, Object> MapHasId = stockService.getNumNameByOgid(O_gid);
+        String goods_name = (String) MapHasId.get("goods_name");
+        Integer amount = (Integer) MapHasId.get("amount");
+        System.out.println(MapHasId.toString()+"                                     ------                    ");
+        WaitingList waitingList = new WaitingList(null, goods_name,  amount,O_gid, false);
+        if (stockService.newAStock(waitingList) == 1) {
+            return APIResult.createOKMessage("success to make a stockOrder");
+        } else
+            return APIResult.createNg("fail to make a stockOrder");
+    }
 }
 

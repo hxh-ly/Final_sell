@@ -12,4 +12,5 @@ public interface StockService {
 
      public  List<WaitingList> getWaitingList();
      public Map<String,Object> getNumNameByOgid(Integer ogid);
+     public Integer newAStock(WaitingList waitingList);
 }

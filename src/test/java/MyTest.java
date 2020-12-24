@@ -90,10 +90,8 @@ map.put("cphone","13144829823");
         //Stock a=new Stock(1234,"锤子",22,new Date(1608134400000L),"wh");
         //Map<String, Object> numNameByOgid = mapper.getNumNameByOgid(13);
         //System.out.println(numNameByOgid.toString());
-        List<WaitingList> waitingList = mapper.getWaitingList();
-        for (WaitingList list : waitingList) {
-            System.out.println(list);
-        }
+        WaitingList waitingList = new WaitingList(null,"面包3",2,11,false);
+       mapper.newAStock(waitingList);
         session.close();
 
     }
@@ -120,8 +118,9 @@ map.put("cphone","13144829823");
     }
     @Test
     void testDelivery(){
-        DeliveryDao mapper = session.getMapper(DeliveryDao.class);
-        mapper.updateGom(1532);
+        StatisticDao mapper = session.getMapper(StatisticDao.class);
+        List<Integer> yGoodsType = mapper.getYGoodsType();
+        System.out.println(yGoodsType.toString());
         session.close();
     }
 

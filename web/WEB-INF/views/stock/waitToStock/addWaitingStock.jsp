@@ -44,7 +44,7 @@
 <div class="layui-form-item">
     <div class="layui-input-block">
         <form:hidden path="id"/>
-        <input type="hidden"  name="_method" value="put" autocomplete="off" class="layui-input" />
+
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">商品</label>

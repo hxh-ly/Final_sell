@@ -61,11 +61,13 @@ public class StockController {
         if(!Condition.isEmpty()){
             String goodsName= (String) Condition.get("goods_name");
             Integer amount = (Integer) Condition.get("amount");
-            int waitStockId = (int) (Math.round((Math.random() + 1) * 10000));
+            int waitStockId = id*10000+1024;
             Stock waitToStock = new Stock(waitStockId, goodsName, amount, null, null);
             model.addAttribute("waitToStock",waitToStock);
+            model.addAttribute("O_gid",id);
             return "/stock/waitToStock/addWaitingStock";
         }
         return "";
     }
+
 }

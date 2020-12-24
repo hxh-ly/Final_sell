@@ -55,12 +55,6 @@
                      data-url="${pageContext.request.contextPath}/contract/ToaddContract" class="site-demo-active"
                      data-type="tabAddContract">添加合同</a>
               </dd>
-              <dd><a href="javascript:;"
-                     data-id="3"
-                     data-title="查询合同"
-                     data-url="${pageContext.request.contextPath}/contract/contractList" class="site-demo-active"
-                     data-type="tabQueryContract">查询合同</a>
-              </dd>
             </dl>
           </li>
           </security:authorize>
@@ -93,6 +87,18 @@
             </dl>
           </li>
           </security:authorize>
+
+          <security:authorize access="hasAnyRole('ROLE_CLIENT')">
+            <li class="layui-nav-item">
+              <a href="javascript:;">统计信息</a>
+              <dl class="layui-nav-child">
+                <dd><a data-id="9" class="site-demo-active" data-title="客户统计" data-type="ShowGoods" data-url="${pageContext.request.contextPath}/goods/toShowList">客户统计</a></dd>
+                <dd><a data-id="10" class="site-demo-active" data-title="销售统计" data-type="GoodsDelivery" data-url="${pageContext.request.contextPath}/delivery/deliveryList">销售统计</a></dd>
+                <dd><a data-id="11" class="site-demo-active" data-title="商品种类统计" data-type="ShowStock" data-url="${pageContext.request.contextPath}/statistics/goodsType">商品种类统计</a></dd>
+              </dl>
+            </li>
+          </security:authorize>
+
         </ul>
       </div>
     </div>

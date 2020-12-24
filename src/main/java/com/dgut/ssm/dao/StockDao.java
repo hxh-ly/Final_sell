@@ -15,4 +15,6 @@ public interface StockDao {
     public  List<WaitingList> getWaitingList();
     //根据货单id查询数量 商品名
     public Map<String,Object> getNumNameByOgid(Integer ogid);
+    //生成没有发货单的进货单
+    public Integer newAStock(WaitingList waitingList);
 }

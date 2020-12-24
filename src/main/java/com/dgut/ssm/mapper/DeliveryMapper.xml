@@ -48,9 +48,11 @@
     <update id="updateGom">
         update test_rightcontrol.goods_orders_merge
         set status = 1 where eid=#{eid}
-
     </update>
-
-
+<!--    public  int updateWaitStock(Integer O_gid);-->
+<update id="updateWaitStock">
+    update test_rightcontrol.less_to_stock set less_to_stock.is_stock=1
+where order_gid=#{O_gid}
+</update>
 </mapper>
 
