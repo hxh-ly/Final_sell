@@ -58,6 +58,7 @@
                         id: "toStock",
                         type: 2,
                         title: '进货',
+                        area:['500px','500px'],
                         content: '${pageContext.request.contextPath}/stock/ToPopStock?id=' + data.id,
                         btn: ["提交", "取消"],
                         yes: function (index, layero) {

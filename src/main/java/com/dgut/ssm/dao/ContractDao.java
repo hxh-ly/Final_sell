@@ -23,4 +23,6 @@ public interface ContractDao {
 
     //统计合同下的所有清单货单数量
     public Integer sumAllGoods(Integer cid);
+    //修改合同基本信息
+    public  Integer updateBaseInfo(Map map);
 }

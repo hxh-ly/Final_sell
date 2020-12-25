@@ -21,13 +21,15 @@ public class DeliveryServiceImpl implements DeliveryService {
     }
     @Transactional
     public int updateQuantity(Integer eid) {
+        //找到数量
         int deliveryAmount = deliveryDao.getDeliveryAmount(eid);
+        //找到货物
         int deliveryGid = deliveryDao.getDeliveryGid(eid);
         //修改数量
         Integer i = deliveryDao.updateQuantity(deliveryAmount, deliveryGid);
         //修改receipts（货单表）状态
         deliveryDao.updateStatus(eid);
-        //修改gom(中间表)状态
+        //修改gom(中间表)状态 --已发货
         deliveryDao.updateGom(eid);
         //查询数量
         int quantity = deliveryDao.getQuantity(deliveryGid);

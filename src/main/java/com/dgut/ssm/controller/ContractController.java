@@ -87,11 +87,26 @@ public class ContractController {
     @GetMapping("PopContract")
     public String PopContract(Model model, @RequestParam(value = "cid") Integer cid) {
         Contract contract = contractService.getContractById(cid);
-
         model.addAttribute("contract", contract);
-        return "contract/updateContractForm";
+        return "contract/updateBaseContract";
     }
-
+    @RequestMapping("updateBaseInfo")
+    @ResponseBody
+    public APIResult updateBaseInfo(@RequestBody Map map){
+        System.out.println(map.toString());
+        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        //根据phone查id去改数据库记录
+        Object cphone = map.get("cphone");
+        Object sphone = map.get("sphone");
+        Client client = clientService.GetByPhone((String) cphone);
+        Staff staff = staffService.GetByPhone((String) sphone);
+        //更改数据库的记录
+        map.put("sid",staff.getId());
+        map.put("cid",client.getId());
+        if(contractService.updateBaseInfo(map)==1)
+        return  APIResult.createOk(map);
+        else return APIResult.createNg("fail to update base");
+    }
     @GetMapping("/showOrder")
     public String showOrder(@Param("cid") Integer cid, Model model) {
         //合同id

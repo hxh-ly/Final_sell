@@ -32,6 +32,13 @@ public class DeliveryController {
     ReceiptService receiptService;
     int extra = (int) (Math.round((Math.random() + 1) * 100));
 
+    /**
+     * 展示待发货列表数据
+     *
+     * @param model
+     * @param msg
+     * @return
+     */
     @RequestMapping("/deliveryList")
     public String getDeliveryInfo(Model model, @RequestParam(value = "msg", required = false) Integer msg) {
         //获取发货单
@@ -42,6 +49,13 @@ public class DeliveryController {
         return "/delivery/deliveryList";
     }
 
+    /**
+     * 进行发货
+     *
+     * @param eid
+     * @param model
+     * @return
+     */
     @RequestMapping("/doDelivery")
     public String doDelivery(@Param("eid") Integer eid, Model model) {
         int i = 0;
@@ -50,8 +64,9 @@ public class DeliveryController {
             //发货合同状态才为1 通过进货单应该记载合同
             //通过eid找到合同
             Integer cid = receiptService.getCidByEid(eid);
+            //改变合同状态（1--正执行  2---履行完毕）
             contractService.ChangeStatus(cid, 1);
-            //判断该合同含的发货单的状态是否都为1，1就修改合同状态 //只在发货单里找 no
+            //判断该合同含的发货单的状态是否都为1，1就修改合同状态为2
             List<Integer> allStatus = receiptService.isAllSend(cid);
             //合同货单数量
             Integer total = contractService.sumAllGoods(cid);
@@ -65,17 +80,16 @@ public class DeliveryController {
         return "redirect:/delivery/deliveryList";
     }
 
-    @RequestMapping("/doStock")
-    public String doStock(@Param("eid") Integer eid, Model model) {
-        int amount = 12;
-        int i = deliveryService.addGoodsQuantity(amount, eid);
-        model.addAttribute("msg", i);
-        return "redirect:/delivery/deliveryList";
-    }
-
+    /**
+     * 进货弹框
+     *
+     * @param eid
+     * @param model
+     * @return
+     */
     @RequestMapping("/addStock")
     public String addStock(@Param("eid") Integer eid, Model model) {
-        //通过eid查询goods 返回商品号 名称
+        //通过eid查询goods 返回商品号 名称  进货id藏在货单id里
         Goods goods = goodsService.getGoodsInEid(eid);
         //new 一个进货单然后发给页面
         //去eid -23
@@ -86,26 +100,30 @@ public class DeliveryController {
         return "/stock/addStock";
     }
 
-    //在销售管理员生成进货单时，未进货列表进货使用
+    /**
+     * 在销售管理员生成进货单时
+     *
+     * @param stock
+     * @return
+     */
     @RequestMapping("goodsStock")
     @ResponseBody
     public APIResult formStock(@ModelAttribute("stock") Stock stock) {
         //提取stockId中的O_gid
         int O_gid = (stock.getId() - 1024) / 10000;
-        System.out.println(O_gid+"   -======================================================");
+        System.out.println(O_gid + "   -======================================================");
         try {
             //加入进货记录里
+            //判断来自销售管理员生成进货单的  还是成功发货单
             if (stock.getId() > 10000) {
                 int goodId = goodsService.getGoodIdByName(stock.getGoodsName());
-                //goodsService.updateGoods();
-                //goodsService.getGoodsById(goodId);
                 deliveryService.updateQuantityByGid(stock.getNum(), goodId);
+                //修改未成功生成发货单而产生的进货单的状态(已进货)
                 deliveryService.updateWaitStock(O_gid);
             } else {
                 deliveryService.addGoodsQuantity(stock.getNum(), stock.getId() + extra);
             }
-            //修改待进货单里的进货状态，通过中间表O_gid找到
-
+            //添加到进货记录
             stockService.addStock(stock);
             return APIResult.createOKMessage("success stock");
         } catch (Exception e) {

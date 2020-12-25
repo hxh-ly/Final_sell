@@ -116,5 +116,13 @@
         select count(gom.id) from test_rightcontrol.goods_orders_merge gom,test_rightcontrol.goods g,test_rightcontrol.orders o
         where gom.oid =o.id and o.contractId=#{cid} and gom.gid=g.id
     </select>
+
+    <!--public  Integer updateBaseInfo(Map map);-->
+    <update id="updateBaseInfo"  parameterType="Map">
+        update test_rightcontrol.contract set cid=#{cid},sid=#{sid}
+             ,signdate=#{signdate},status=0  where id=#{id}
+    </update>
+
+
 </mapper>
 

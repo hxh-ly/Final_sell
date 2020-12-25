@@ -185,11 +185,12 @@
                         type: 2,
                         title: '修改',
                         content: '${pageContext.request.contextPath}/contract/PopContract?cid=' + cid,
+                        area:['500px','500px'],
                         btn: ["提交", "取消"],
                         yes: function (index, layero) {
                             var body = layer.getChildFrame('body', index);
-                            var f = body.find(".layui-form");
-                            f.submit();
+                            var f = body.find("#toUpdateBase");
+                            f.click();
                             layer.close(index);
                             setTimeout(function () {
                                 tb.reload()

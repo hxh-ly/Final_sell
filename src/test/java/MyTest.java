@@ -105,8 +105,13 @@ map.put("cphone","13144829823");
     @Test
     void TestHard(){
         ContractDao mapper = session.getMapper(ContractDao.class);
-        Contract allContract = mapper.getContractById(1);
-        System.out.println(allContract);
+       Map<String,Object> map=new HashMap<String, Object>();
+       map.put("id",792);
+       map.put("dsfds",3431);
+       map.put("sid",1);
+       map.put("cid",2);
+       map.put("signdate",new Date(1608825600));
+       mapper.updateBaseInfo(map);
         session.close();
     }
     @Test

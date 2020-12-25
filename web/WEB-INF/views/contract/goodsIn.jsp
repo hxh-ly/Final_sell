@@ -35,7 +35,7 @@
         <th>价格</th>
         <th>数量</th>
         <th>是否发货</th>
-        <th>修改清单信息</th>
+        <%--<th>修改清单信息</th>--%>
 
         <th>生成发货单</th>
         <th>生成进货单</th>
@@ -56,10 +56,12 @@
                 </c:choose>
             </td>
 
-            <td><c:if test="${requestScope.contract.status==0}"><input type="button"
+            <%--<td><c:if test="${requestScope.contract.status==0}"><input type="button"
                                                                        class="layui-btn layui-btn-normal btn"
                                                                        onclick="PopUpdateO_gid(this)" data-id="${gi.id}"
-                                                                       value="update"/></c:if></td>
+                                                                       value="update"/></c:if></td>--%>
+
+
             <td><c:if test="${gi.isGenerate==0}"><input type="button" class="layui-btn layui-btn-danger btn"
                                                         onclick="window.location.href='${pageContext.request.contextPath}/contract/newReceipt?goodsName=${gi.goodsName}&orderId=${requestScope.orderId}&contractId=${contract.id}&need=${gi.amount}'"
                                                         value="生成"/></c:if></td>

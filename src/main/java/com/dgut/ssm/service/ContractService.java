@@ -15,4 +15,5 @@ public interface ContractService {
     public int InsertContract(Contract contract);
     public List<Contract> queryContractCondition(Map map);
     public Integer sumAllGoods(int cid);
+    public  Integer updateBaseInfo(Map map);
 }

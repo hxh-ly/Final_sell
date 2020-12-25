@@ -52,4 +52,8 @@ public class ContractServiceImpl implements ContractService {
     public Integer sumAllGoods(int cid) {
        return contractDao.sumAllGoods(cid);
     }
+
+    public Integer updateBaseInfo(Map map) {
+        return contractDao.updateBaseInfo(map);
+    }
 }

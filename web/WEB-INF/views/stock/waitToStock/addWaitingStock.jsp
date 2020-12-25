@@ -64,7 +64,7 @@
             <div class="layui-inline">
                 <label class="layui-form-label">进货时间</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="deliverDate" placeholder="yyyy--mm-dd" autocomplete="off" class="layui-input">
+                    <input type="text" name="deliverDate" id="deliverDate" lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
                 </div>
             </div>
 
@@ -86,7 +86,10 @@
         <script>
             layui.use(['form','laydate'], function(){
                 let form = layui.form;
-
+                let laydate=layui.laydate;
+                laydate.render({
+                    elem: '#deliverDate'
+                });
                 //各种基于事件的操作，下面会有进一步介绍
             });
         </script>
