@@ -7,11 +7,13 @@ import com.dgut.ssm.service.StaffService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -61,13 +63,17 @@ public class staffController {
                 return APIResult.createNg("empty");
     }
     @RequestMapping("updateStaff")
-    public String updateStaff(@ModelAttribute("staffForQuery") Staff staff){
-        Integer i = staffService.updateStaff(staff);
-        if(i==1){
-            return  "redirect:/staff/showStaff";
+
+    public String updateStaff(@ModelAttribute("staffForQuery") @Valid Staff staff, BindingResult bindingResult){
+        if(!bindingResult.hasErrors()){
+            Integer i = staffService.updateStaff(staff);
+            if(i==1){
+                return  "staff/updateStaffForm";
+            }
+            else{
+                return "staff/updateStaffForm";
+            }
         }
-        else{
-            return "redirect:/staff/updateStaff";
-        }
+       else  return "staff/updateStaffForm";
     }
 }

@@ -11,18 +11,19 @@
 <div class="layui-form-item">
     <div class="layui-input-block">
         <form:hidden path="id"/>
-        <input type="hidden"  name="_method" value="put" autocomplete="off" class="layui-input" />
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">销售员名</label>
         <div class="layui-input-inline">
             <form:input path="name" type="text"  placeholder="请输入" autocomplete="off" class="layui-input" />
+            <form:errors path="name"></form:errors>
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">联系方式</label>
         <div class="layui-input-inline">
             <form:input type="text" path="phone" placeholder="请输入" autocomplete="off" class="layui-input"/>
+            <form:errors path="phone"></form:errors>
         </div>
     </div>
 

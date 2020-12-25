@@ -103,6 +103,7 @@
                         id: "updateStaff",
                         type: 2,
                         title: '修改',
+                        area:['500px','500px'],
                         content: '${pageContext.request.contextPath}/staff/PopStaff?flag=0&id=' + cid,
                         btn: ["提交", "取消"],
                         yes: function (index, layero) {
@@ -110,7 +111,9 @@
                             var body = layer.getChildFrame('body', index);
                             var f = body.find(".layui-form");
                             f.submit();
-                            layer.close(index);
+                            setTimeout(function (){
+                                layer.close(index);
+                            },2000);
                             setTimeout(function () {
                                 tb.reload()
                             }, 300);
