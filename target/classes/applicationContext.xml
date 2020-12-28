@@ -12,11 +12,11 @@
 http://www.springframework.org/schema/security
         http://www.springframework.org/schema/security/spring-security.xsd">
 
-    <!--??????-->
+    <!--组件扫描-->
     <context:component-scan base-package="com.dgut.ssm">
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
     </context:component-scan>
-    <!--?????-->
+    <!--数据源-->
     <context:property-placeholder location="classpath:db.properties"/>
     <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
         <property name="driverClass" value="${spring.driver}"/>
@@ -24,30 +24,30 @@ http://www.springframework.org/schema/security
         <property name="user" value="${spring.username}"/>
         <property name="password" value="${spring.password}"/>
     </bean>
-    <!--?????????-->
+    <!--事务管理器-->
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource"/>
     </bean>
-    <!--?????????????? @Transactional -->
+    <!--注册注解事务驱动 @Transactional -->
     <tx:annotation-driven transaction-manager="transactionManager"/>
 
-    <!--spring????mybatis-->
-    <!--Mybatis??sqlSession?????-->
+    <!--spring整合mybatis-->
+    <!--Mybatis的sqlSession的创建-->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-        <!--mybatis??????????-->
+        <!--mybatis全局配置文件-->
         <property name="configLocation" value="classpath:mybatis-config.xml"/>
-        <!--?????????-->
+        <!--数据源在哪-->
         <property name="dataSource" ref="dataSource"/>
-        <!--Mybatis sql??????-->
+        <!--Mybatis sql映射文件-->
         <property name="mapperLocations" value="classpath:com/dgut/ssm/mapper/*.xml"/>
-        <!--????-->
+        <!--别名-->
         <!-- <property name="typeAliasesPackage" value=""/>-->
-        <!--??????-->
+        <!--分页插件-->
         <property name="plugins">
             <array>
                 <bean class="com.github.pagehelper.PageInterceptor">
                     <property name="properties">
-                        <!--?????????????ò??????????????? -->
+                        <!--使用下面的方式配置参数，一行配置一个 -->
                         <value>
                             helperDialect=mysql
                             offsetAsPageNum=true
@@ -60,31 +60,31 @@ http://www.springframework.org/schema/security
             </array>
         </property>
     </bean>
-    <!--Mybatis???????????????-->
+    <!--Mybatis数据接口的代理实现类-->
     <mybatis-spring:scan base-package="com.dgut.ssm.dao"/>
-    <!--??????-->
-    <!--????????-->
+    <!--权限控制-->
+    <!--释放静态资源-->
     <security:http pattern="/css/**" security="none"/>
     <security:http pattern="/img/**" security="none"/>
     <security:http pattern="/plugins/**" security="none"/>
     <security:http pattern="/fail.jsp" security="none"/>
-    <!--auto-config????????????????  use-expressions?????spring ??el-->
+    <!--auto-config：自动加载配置文件  use-expressions：使用spring 的el-->
     <security:http auto-config="true" use-expressions="true">
         <security:headers>
             <security:frame-options policy="SAMEORIGIN"/>
         </security:headers>
-        <!--????????????????????-->
+        <!--认证页面可以匿名访问放行-->
         <security:intercept-url pattern="/login.jsp" access="permitAll()"/>
         <security:intercept-url pattern="/**" access="hasAnyRole('ROLE_USER')"/>
-        <!--???????????-->
+        <!--认证信息自定义-->
         <security:form-login login-page="/login.jsp" login-processing-url="/login"
                              default-target-url="/index.jsp" authentication-failure-url="/fail.jsp"/>
-        <!--?????????-->
+        <!--退出登录信息-->
         <security:logout logout-url="/logout" logout-success-url="/login.jsp"/>
-        <!--???csrf????-->
+        <!--去掉csrf拦截-->
          <security:csrf disabled="true"/>
     </security:http>
-    <!--???-->
+    <!--模拟-->
     <security:authentication-manager>
         <security:authentication-provider user-service-ref="userServiceImpl">
         </security:authentication-provider>

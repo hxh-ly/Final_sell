@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dgut.ssm.dao.StockDao">
+<!--    public int addStock(Stock stock);-->
+    <insert id="addStock" parameterType="com.dgut.ssm.bean.Stock">
+        insert into test_rightcontrol.stock values (#{id},#{goodsName},#{num},#{deliverDate},#{userName})
+    </insert>
+    <!--public List<Stock> getAllStock();-->
+    <select id="getAllStock" resultType="com.dgut.ssm.bean.Stock">
+        select id,goods_name,num,deliver_date,user_name from test_rightcontrol.stock
+    </select>
+
+    <!--public  List<WaitingList> getWaitingList();-->
+    <select id="getWaitingList" resultType="com.dgut.ssm.bean.WaitingList">
+        select  order_gid as id,goods_name,num,is_stock from test_rightcontrol.less_to_stock
+    </select>
+
+    <!--public Map<String,Object> getNumNameByOgid(Integer ogid);-->
+    <select id="getNumNameByOgid" resultType="Map">
+        select gom.amount,goods_name from test_rightcontrol.goods_orders_merge gom,test_rightcontrol.goods g where gom.id=#{ogid}
+        and gid=g.id and eid=0
+    </select>
+    <!--public Integer newAStock(WaitingList waitingList);-->
+    <insert id="newAStock" >
+        insert into test_rightcontrol.less_to_stock values (#{id},#{goodsName},#{num},#{O_gid},#{isStock})
+    </insert>
+</mapper>
+

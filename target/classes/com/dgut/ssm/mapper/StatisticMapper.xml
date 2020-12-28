@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dgut.ssm.dao.StatisticDao">
+
+    <!--public List<String> GetXGoodsType();-->
+    <select id="GetXGoodsType" resultType="String">
+        select distinct category
+        from test_rightcontrol.goods
+    </select>
+    <!--public List<Integer> getYGoodsType();-->
+    <select id="getYGoodsType" resultType="int">
+/*        select sum(amount)
+        from test_rightcontrol.goods_orders_merge
+        group by goods_orders_merge.gid
+        having gid = (select id
+                      from test_rightcontrol.goods
+                      group by category having (select distinct category from test_rightcontrol.goods))
+*/
+select  sum(goods_orders_merge.amount) from test_rightcontrol.goods,test_rightcontrol.goods_orders_merge
+where test_rightcontrol.goods.id=goods_orders_merge.gid
+group by   category;
+    </select>
+
+</mapper>
+

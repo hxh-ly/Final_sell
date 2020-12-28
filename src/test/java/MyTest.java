@@ -124,8 +124,8 @@ map.put("cphone","13144829823");
     @Test
     void testDelivery(){
         StatisticDao mapper = session.getMapper(StatisticDao.class);
-        List<Integer> yGoodsType = mapper.getYGoodsType();
-        System.out.println(yGoodsType.toString());
+        List<String> xGoodsType = mapper.GetXGoodsType();
+        System.out.println(xGoodsType.toString());
         session.close();
     }
 

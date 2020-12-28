@@ -10,6 +10,7 @@
 <html>
   <head>
     <title>$Title$</title>
+    <link rel="icon" href="/static/images/user_se.png;base64,aWNv">
     <link rel="stylesheet" href="/static/css/layui.css">
   </head>
  <%-- <body>
