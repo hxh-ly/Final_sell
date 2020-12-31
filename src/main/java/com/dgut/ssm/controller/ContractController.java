@@ -87,6 +87,8 @@ public class ContractController {
     @GetMapping("PopContract")
     public String PopContract(Model model, @RequestParam(value = "cid") Integer cid) {
         Contract contract = contractService.getContractById(cid);
+        System.out.println("打印合同用于更新");
+        System.out.println(contract);
         model.addAttribute("contract", contract);
         return "contract/updateBaseContract";
     }
@@ -101,11 +103,16 @@ public class ContractController {
         Client client = clientService.GetByPhone((String) cphone);
         Staff staff = staffService.GetByPhone((String) sphone);
         //更改数据库的记录
-        map.put("sid",staff.getId());
-        map.put("cid",client.getId());
-        if(contractService.updateBaseInfo(map)==1)
-        return  APIResult.createOk(map);
-        else return APIResult.createNg("fail to update base");
+
+        if(staff!=null&&client!=null)
+        { map.put("sid",staff.getId());
+            map.put("cid",client.getId());
+            if(contractService.updateBaseInfo(map)==1)
+                return  APIResult.createOk(map);
+            else return APIResult.createNg("fail to update base");
+        }
+        else
+            return APIResult.createNg("error phone");
     }
     @GetMapping("/showOrder")
     public String showOrder(@Param("cid") Integer cid, Model model) {
@@ -178,23 +185,13 @@ public class ContractController {
             return APIResult.createOKMessage("OK");
 
         } else
-            return APIResult.createNg("Fail");
+            return APIResult.createNg("Fail add good in order");
     }
-
+    //销售人员生成发货单
     @GetMapping("/newReceipt")
     public String newReceipt(@Param("goodsName") String goodsName, @Param("orderId") Integer orderId, @Param("contractId") Integer contractId,
                              @RequestParam("need") Integer needNum, Model model) throws IOException {
-
-        //如果库存够 1.增加一张发货单，
-        //          2.将合同状态修改 同时（清单，合同）不可修改
-        //          3.修改仓库管理员的发货单有记录,能发货
-        //如果库存不够<=0, 仓库那边就没有发货单记录
-        // 1.增加一个进货单（发货数量+30） 仓库那边可以去发货
-        // 2.
-        //如果发货后库存为0，仓库管理员就去进货。
-
-        //ps:有一个事务 一个订单的全部商品全都能发出去 才有发货单
-        //one:根据goodsid判断添加一个发货单
+        //传过来 名字 oid cid 需要的数量
         model.addAttribute("orderId", orderId);
         model.addAttribute("contractId", contractId);
         int goodId = goodsService.getGoodIdByName(goodsName);
@@ -202,38 +199,44 @@ public class ContractController {
         //总数
         int total = goodsById.getAmount();
         //订单需要的数量
-        //Goods needNum = goodsService.getNeedNum(goodId, orderId);
-        //int need = needNum.getAmount();
         int need = needNum;
         if (need <= total) {
+            if (goodsService.checkIsEid(goodId, orderId, need) != 0) {//如果发货单存在
+                //1.通过有orderId 和 goodId 查找合同里的客户地址
+                //2.生成发货单(订单，状态，客户地址)
+                //反馈提示失败
+                Integer msg = 0;
+                model.addAttribute("msg", msg);
+            } else {
+
+                Integer cid = orderService.getOrder(orderId);
+                Client client = contractService.GetClient(cid);
+                String location = client.getLocation();
+                Integer expressId = (int) (Math.round((Math.random() + 1) * 1000));
+                Receipt receipt = new Receipt(expressId, 0, location, null, contractId);
+                //添加发货单 发货单里有一个合同id
+                receiptService.addReceipt(receipt);
+                //录到中间表里
+                receiptService.addInMerge(receipt.getExpressId(), orderId, goodId, need);
+                //反馈生成成功
+                Integer msg = 1;
+                model.addAttribute("msg", msg);
+            }
+
+        } else {
             if (goodsService.checkIsEid(goodId, orderId, need) != 0) {//如果发货单存在
                 //1.通过有orderId 和 goodId 查找合同里的客户地址
                 //2.生成发货单(订单，状态，客户地址)
                 //提示失败
                 Integer msg = 0;
                 model.addAttribute("msg", msg);
-            } else {
-                Integer cid = orderService.getOrder(orderId);
-                Client client = contractService.GetClient(cid);
-                String location = client.getLocation();
-                Integer expressId = (int) (Math.round((Math.random() + 1) * 1000));
-                Receipt receipt = new Receipt(expressId, 0, location, null, contractId);
-                //添加发货单 发货单里有一个合同id？
-                receiptService.addReceipt(receipt);
-                //录到中间表里
-                receiptService.addInMerge(receipt.getExpressId(), orderId, goodId, need);
+            }
+            //回到页面去生成进货单
+            else{
 
-                //判断现在所有货单是否发货完 完合同状态就是2了
-
-                //不允许修改（2个）
-                Integer msg = 1;
+                Integer msg = 2;
                 model.addAttribute("msg", msg);
             }
-
-        } else {
-            //回到页面去生成进货单
-            Integer msg = 2;
-            model.addAttribute("msg", msg);
 
         }
 
@@ -258,9 +261,12 @@ public class ContractController {
         else return APIResult.createNg("fail to update goods In orders");
     }
 
+
+    //销售人员生成进货单
     @RequestMapping("/newAStock")
     @ResponseBody
     public APIResult newAStock(@RequestParam("O_gid") Integer O_gid) {
+        //要查看是否已经生成进货单了
         //在less_to_stock表插入数据，
         //通过O_gid 在中间表查
         System.out.println(O_gid+"            !!OID!!           ");

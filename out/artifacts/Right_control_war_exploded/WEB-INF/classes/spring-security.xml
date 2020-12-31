@@ -28,18 +28,18 @@
         <security:headers>
             <security:frame-options policy="SAMEORIGIN"/>
         </security:headers>
-        <!--ÈÏÖ¤Ò³Ãæ¿ÉÒÔÄäÃû·ÃÎÊ·ÅÐÐ-->
+        <!--è®¤è¯é¡µé¢å¯ä»¥åŒ¿åè®¿é—®æ”¾è¡Œ-->
         <security:intercept-url pattern="/login.jsp" access="permitAll()"/>
         <security:intercept-url pattern="/**" access="hasAnyRole('ROLE_USER')"/>
-        <!--ÈÏÖ¤ÐÅÏ¢×Ô¶¨Òå-->
+        <!--è®¤è¯ä¿¡æ¯è‡ªå®šä¹‰-->
         <security:form-login login-page="/login.jsp" login-processing-url="/login"
                              default-target-url="/index.jsp" authentication-failure-url="/fail.jsp"/>
-        <!--ÍË³öµÇÂ¼ÐÅÏ¢-->
+        <!--é€€å‡ºç™»å½•ä¿¡æ¯-->
         <security:logout logout-url="/logout" logout-success-url="/login.jsp"/>
-        <!--È¥µôcsrfÀ¹½Ø-->
+        <!--åŽ»æŽ‰csrfæ‹¦æˆª-->
         <!-- <security:csrf disabled="true"/>-->
     </security:http>
-    <!--Ä£Äâ-->
+    <!--æ¨¡æ‹Ÿ-->
     <security:authentication-manager>
         <security:authentication-provider user-service-ref="UserServiceImpl">
         </security:authentication-provider>

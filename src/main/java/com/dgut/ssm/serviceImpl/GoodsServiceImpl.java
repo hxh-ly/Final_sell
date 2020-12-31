@@ -38,7 +38,13 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     public int getGoodIdByName(String name) {
-        return goodsDao.getGoodIdByName(name);
+        int i=0;
+        try {
+            i=goodsDao.getGoodIdByName(name);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return  i;
     }
 
     public List<Goods> getGoodsByOrderId(Integer id) {

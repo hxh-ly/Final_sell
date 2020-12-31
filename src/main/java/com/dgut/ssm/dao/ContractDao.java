@@ -14,7 +14,7 @@ import java.util.Map;
 public interface ContractDao {
     public List<Contract> getAllContract();
     public void ChangeStatus(@Param("contractId") int contractId,@Param("status") int status);
-    @Select("select id,sid,cid,status,signdate from contract where id=#{contractId}")
+
     public Contract getContractById(@Param("contractId") int contractId);
 
     public int InsertContract(Contract contract);

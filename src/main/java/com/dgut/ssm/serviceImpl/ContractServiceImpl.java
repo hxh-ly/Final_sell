@@ -53,6 +53,7 @@ public class ContractServiceImpl implements ContractService {
        return contractDao.sumAllGoods(cid);
     }
 
+    @Transactional
     public Integer updateBaseInfo(Map map) {
         return contractDao.updateBaseInfo(map);
     }

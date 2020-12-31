@@ -62,6 +62,30 @@
          </collection>
      </resultMap>-->
 
+    <!--getContractById-->
+    <select id="getContractById" resultMap="forUpdateContract">
+        select c.id contractId, status,signdate, sid, cid, tc.phone cphone, ts.phone sphone
+        from test_rightcontrol.contract c,
+             test_rightcontrol.client tc,
+             test_rightcontrol.staff ts
+        where c.id = #{contractId}
+          and sid = ts.id
+          and cid = tc.id
+    </select>
+    <resultMap id="forUpdateContract" type="com.dgut.ssm.bean.Contract">
+        <result property="id" column="contractId"/>
+        <result property="signdate" column="signdate"/>
+        <result property="status" column="status"/>
+        <association property="client" javaType="com.dgut.ssm.bean.Client">
+            <result property="id" column="cid"/>
+            <result property="phone" column="cphone"/>
+        </association>
+        <association property="staff" javaType="com.dgut.ssm.bean.Staff">
+            <result property="id" column="sid"/>
+            <result property="phone" column="sphone"/>
+        </association>
+
+    </resultMap>
     <!--    public void ChangeStatus();-->
     <update id="ChangeStatus">
         update test_rightcontrol.contract
@@ -82,7 +106,8 @@
     </parameterMap>
 
     <!--public List<Contract> queryContractCondition(Map map);  -->
-    <select id="queryContractCondition" resultType="com.dgut.ssm.bean.Contract" parameterType="Map" resultMap="Contract_phone">
+    <select id="queryContractCondition" resultType="com.dgut.ssm.bean.Contract" parameterType="Map"
+            resultMap="Contract_phone">
         select contract.id,c.phone cphone,s.phone sphone,signdate,status from test_rightcontrol.contract
         contract,test_rightcontrol.client c,test_rightcontrol.staff s
         <trim prefix="where" prefixOverrides="and">
@@ -111,16 +136,25 @@
 
     </select>
 
-<!--    public Integer sumAllGoods();-->
+    <!--    public Integer sumAllGoods();-->
     <select id="sumAllGoods" resultType="int">
-        select count(gom.id) from test_rightcontrol.goods_orders_merge gom,test_rightcontrol.goods g,test_rightcontrol.orders o
-        where gom.oid =o.id and o.contractId=#{cid} and gom.gid=g.id
+        select count(gom.id)
+        from test_rightcontrol.goods_orders_merge gom,
+             test_rightcontrol.goods g,
+             test_rightcontrol.orders o
+        where gom.oid = o.id
+          and o.contractId = #{cid}
+          and gom.gid = g.id
     </select>
 
     <!--public  Integer updateBaseInfo(Map map);-->
-    <update id="updateBaseInfo"  parameterType="Map">
-        update test_rightcontrol.contract set cid=#{cid},sid=#{sid}
-             ,signdate=#{signdate},status=0  where id=#{id}
+    <update id="updateBaseInfo" parameterType="Map">
+        update test_rightcontrol.contract
+        set cid=#{cid}
+          , sid=#{sid}
+          , signdate=#{signdate}
+          , status=0
+        where id = #{id}
     </update>
 
 

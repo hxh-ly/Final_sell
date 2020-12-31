@@ -1,20 +1,13 @@
 import com.dgut.ssm.bean.*;
 import com.dgut.ssm.dao.*;
-import com.dgut.ssm.service.ContractService;
-import com.dgut.ssm.service.StockService;
-import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
-import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -80,9 +73,10 @@ map.put("cphone","13144829823");
     }
     @Test
     void Del(){
-        ReceiptDao mapper = session.getMapper(ReceiptDao.class);
-        mapper.UpdateAmountMid(6,34);
-        session.close();
+        GoodsDao mapper = session.getMapper(GoodsDao.class);
+        Goods goods = new Goods(null, "面包2", null,null,null);
+        List<Goods> goodsByCondition = mapper.getGoodsByCondition(goods);
+        System.out.println(goodsByCondition.toString());
     }
     @Test
     void add(){

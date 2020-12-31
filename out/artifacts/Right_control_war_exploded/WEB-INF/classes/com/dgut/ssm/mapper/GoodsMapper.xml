@@ -16,7 +16,7 @@
                 and id=#{id}
             </if>
             <if test="goodsName!=null and goodsName.trim()!=''">
-                and goodsName=#{goodsName}
+                and goods_name like concat('%',#{goodsName},'%')
             </if>
             <if test="price!=null ">
                 and price=#{price}

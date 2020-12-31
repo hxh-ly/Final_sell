@@ -89,6 +89,7 @@
 </script>
 <script>
     // window.location.href='${pageContext.request.contextPath}/order/addOrder?cid=${requestScope.back}&oid=${requestScope.orderId}'
+    //添加货物
     function addGoodsInOrder() {
         layui.use(['layer', 'jquery'], function () {
             let layer = layui.layer;
@@ -115,7 +116,7 @@
             })
         });
     }
-
+    //弹出修改
     function PopUpdateO_gid(e) {
         O_gid = e.getAttribute("data-id");
         layui.use(['layer', 'jquery'], function () {
@@ -152,9 +153,10 @@
                 url: '${pageContext.request.contextPath}/contract/newAStock?O_gid=' + O_gid,
                 success: (res => {
                     if (res.code == 0) {
+                        $('#this').attr("disabled", "disabled")
                         alert("生成进货单成功")
                         //隐藏按钮
-                        $('#toNewStock').attr("disabled", "disabled")
+
                         window.location.reload()
                     } else if (res.code == 101) {
                         alert("生成进货单失败")
